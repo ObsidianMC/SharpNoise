@@ -77,12 +77,10 @@ public class Image : Map<Color>
     /// </param>
     public void SaveGdiBitmap(Stream destStream, ImageFormat imageFormat, bool leaveOpen = true)
     {
-        if (destStream == null)
-            throw new ArgumentNullException("destStream");
+        ArgumentNullException.ThrowIfNull(destStream);
         if (!destStream.CanWrite)
             throw new ArgumentException("Given stream cannot be written to.", "destStream");
-        if (imageFormat == null)
-            throw new ArgumentNullException("imageFormat");
+        ArgumentNullException.ThrowIfNull(imageFormat);
 
         var bitmap = ToGdiBitmap();
         bitmap.Save(destStream, imageFormat);
@@ -98,10 +96,8 @@ public class Image : Map<Color>
     /// <param name="imageFormat">The ImageFormat to use</param>
     public void SaveGdiBitmap(string filename, ImageFormat imageFormat)
     {
-        if (filename == null)
-            throw new ArgumentNullException("filename");
-        if (imageFormat == null)
-            throw new ArgumentNullException("imageFormat");
+        ArgumentNullException.ThrowIfNull(filename);
+        ArgumentNullException.ThrowIfNull(imageFormat);
 
         try
         {

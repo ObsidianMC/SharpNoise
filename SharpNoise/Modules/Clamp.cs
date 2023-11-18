@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharpNoise.Modules;
+﻿namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that clamps the output value from a source module to a
@@ -21,7 +19,6 @@ namespace SharpNoise.Modules;
 ///
 /// This noise module requires one source module.
 /// </remarks>
-[Serializable]
 public class Clamp : Module
 {
     /// <summary>
@@ -33,9 +30,8 @@ public class Clamp : Module
     /// Default upper bound of the clamping range
     /// </summary>
     public const double DefaultUpperBound = 1D;
-
-    double lowerBound = DefaultLowerBound;
-    double upperBound = DefaultUpperBound;
+    private double lowerBound = DefaultLowerBound;
+    private double upperBound = DefaultUpperBound;
 
     /// <summary>
     /// Gets the lower bound of the clamping range.
@@ -47,11 +43,8 @@ public class Clamp : Module
     /// </remarks>
     public double LowerBound
     {
-        get { return lowerBound; }
-        set
-        {
-            SetBounds(value, upperBound);
-        }
+        get => lowerBound;
+        set => SetBounds(value, upperBound);
     }
 
     /// <summary>
@@ -64,11 +57,8 @@ public class Clamp : Module
     /// </remarks>
     public double UpperBound
     {
-        get { return upperBound; }
-        set
-        {
-            SetBounds(lowerBound, value);
-        }
+        get => upperBound;
+        set => SetBounds(lowerBound, value);
     }
 
     /// <summary>
@@ -76,15 +66,14 @@ public class Clamp : Module
     /// </summary>
     public Module Source0
     {
-        get { return SourceModules[0]; }
-        set { SourceModules[0] = value; }
+        get => SourceModules[0];
+        set => SourceModules[0] = value;
     }
 
     /// <summary>
     /// Constructor.
     /// </summary>
-    public Clamp()
-        : base(1)
+    public Clamp() : base(1)
     {
     }
 

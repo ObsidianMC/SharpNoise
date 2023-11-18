@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharpNoise.Modules;
+﻿namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that outputs 3-dimensional Perlin noise.
@@ -110,7 +108,6 @@ namespace SharpNoise.Modules;
 /// generate Perlin noise.
 /// </para>
 /// </remarks>
-[Serializable]
 public class Perlin : Module
 {
     /// <summary>
@@ -196,8 +193,7 @@ public class Perlin : Module
     /// <summary>
     /// Constructor.
     /// </summary>
-    public Perlin()
-        : base(0)
+    public Perlin() : base(0)
     {
     }
 

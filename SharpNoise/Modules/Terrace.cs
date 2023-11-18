@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 
 namespace SharpNoise.Modules;
 
@@ -33,15 +31,14 @@ namespace SharpNoise.Modules;
 ///
 /// This noise module requires one source module.
 /// </remarks>
-[Serializable]
 public class Terrace : Module
 {
-    readonly List<double> controlPoints;
+    private readonly List<double> controlPoints;
 
     /// <summary>
     /// Gets the number of control points on the terrace-forming curve.
     /// </summary>
-    public int ControlPointCount { get { return controlPoints.Count; } }
+    public int ControlPointCount => controlPoints.Count;
 
     /// <summary>
     /// Enables or disables the inversion of the terrace-forming curve
@@ -54,10 +51,7 @@ public class Terrace : Module
     /// </summary>
     public IEnumerable<double> ControlPoints
     {
-        get
-        {
-            return controlPoints.AsReadOnly();
-        }
+        get => controlPoints.AsReadOnly();
         set
         {
             controlPoints.Clear();
@@ -70,15 +64,14 @@ public class Terrace : Module
     /// </summary>
     public Module Source0
     {
-        get { return SourceModules[0]; }
-        set { SourceModules[0] = value; }
+        get => SourceModules[0];
+        set => SourceModules[0] = value;
     }
 
     /// <summary>
     /// Constructor.
     /// </summary>
-    public Terrace()
-        : base(1)
+    public Terrace() : base(1)
     {
         controlPoints = new List<double>();
     }
@@ -135,9 +128,9 @@ public class Terrace : Module
 
         ClearControlPoints();
 
-        var terraceStep = 2.0 / ((double)count - 1.0);
+        var terraceStep = 2.0 / (count - 1.0);
         var curValue = -1.0;
-        for (var i = 0; i < (int)count; i++)
+        for (var i = 0; i < count; i++)
         {
             AddControlPoint(curValue);
             curValue += terraceStep;

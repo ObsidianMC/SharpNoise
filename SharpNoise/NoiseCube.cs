@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace SharpNoise;
+﻿namespace SharpNoise;
 
 /// <summary>
 /// Implements a noise cube, a 3-dimensional array of floating-point
@@ -44,9 +41,9 @@ public sealed class NoiseCube
     /// <summary>
     /// Gets a value indicating whether the Cube is empty
     /// </summary>
-    public bool IsEmpty { get { return values == null; } }
+    public bool IsEmpty => values is null;
 
-    float[] values;
+    private float[] values;
 
     public NoiseCube()
     {
@@ -63,8 +60,7 @@ public sealed class NoiseCube
     /// <param name="other">The NoiseCube to copy</param>
     public NoiseCube(NoiseCube other)
     {
-        if (other == null)
-            throw new ArgumentNullException("other");
+        ArgumentNullException.ThrowIfNull(other);
 
         SetSize(other.Width, other.Height, other.Depth);
         other.values.CopyTo(values, 0);
@@ -91,8 +87,10 @@ public sealed class NoiseCube
     /// </param>
     public void Clear(float value)
     {
-        if (values == null)
+        if (values is null)
+        {
             return;
+        }
 
         for (var i = 0; i < values.Length; i++)
             values[i] = value;
@@ -109,8 +107,9 @@ public sealed class NoiseCube
     /// </remarks>
     public void SetSize(int width, int height, int depth)
     {
-        if (width < 0 || height < 0 || depth < 0)
-            throw new ArgumentException("width, height and depth cannot be less than 0.");
+        if (width < 0) throw new ArgumentException($"Parameter {nameof(width)} cannot be less than 0.", nameof(width));
+        if (height < 0) throw new ArgumentException($"Parameter {nameof(height)} cannot be less than 0.", nameof(height));
+        if (depth < 0) throw new ArgumentException($"Parameter {nameof(depth)} cannot be less than 0.", nameof(depth));
 
         if (width == 0 || height == 0 || depth == 0)
         {
@@ -137,11 +136,11 @@ public sealed class NoiseCube
     /// </remarks>
     public float this[int x, int y, int z]
     {
-        get { return GetValue(x, y, z); }
-        set { SetValue(x, y, z, value); }
+        get => GetValue(x, y, z);
+        set => SetValue(x, y, z, value);
     }
 
-    int GetIndex(int x, int y, int z)
+    private int GetIndex(int x, int y, int z)
     {
         return x + Width * y + Width * Height * z;
     }
@@ -159,12 +158,14 @@ public sealed class NoiseCube
     /// </remarks>
     public float GetValue(int x, int y, int z)
     {
-        if (values != null)
+        if (values is null)
         {
-            if (x >= 0 && x < Width && y >= 0 && y < Height && z >= 0 && z < Depth)
-            {
-                return values[GetIndex(x, y, z)];
-            }
+            return BorderValue;
+        }
+
+        if (x >= 0 && x < Width && y >= 0 && y < Height && z >= 0 && z < Depth)
+        {
+            return values[GetIndex(x, y, z)];
         }
 
         return BorderValue;
@@ -183,12 +184,14 @@ public sealed class NoiseCube
     /// </remarks>
     public void SetValue(int x, int y, int z, float value)
     {
-        if (values != null)
+        if (values is null)
         {
-            if (x >= 0 && x < Width && y >= 0 && y < Height && z >= 0 && z < Depth)
-            {
-                values[GetIndex(x, y, z)] = value;
-            }
+            return;
+        }
+
+        if (x >= 0 && x < Width && y >= 0 && y < Height && z >= 0 && z < Depth)
+        {
+            values[GetIndex(x, y, z)] = value;
         }
     }
 

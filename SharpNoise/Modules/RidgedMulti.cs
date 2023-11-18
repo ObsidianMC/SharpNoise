@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharpNoise.Modules;
+﻿namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that outputs 3-dimensional ridged-multifractal noise.
@@ -67,7 +65,6 @@ namespace SharpNoise.Modules;
 /// the authors in Texturing and Modeling: A Procedural Approach
 /// (Morgan Kaufmann, 2002. ISBN 1-55860-848-6.)
 /// </remarks>
-[Serializable]
 public class RidgedMulti : Module
 {
     /// <summary>
@@ -117,7 +114,7 @@ public class RidgedMulti : Module
     /// </remarks>
     public double Lacunarity
     {
-        get { return lacunarity; }
+        get => lacunarity;
         set
         {
             lacunarity = value;
@@ -140,7 +137,7 @@ public class RidgedMulti : Module
     /// </remarks>
     public int OctaveCount
     {
-        get { return octaves; }
+        get => octaves;
         set
         {
             if (value > MaxOctaves)
@@ -155,15 +152,14 @@ public class RidgedMulti : Module
     /// </summary>
     public int Seed { get; set; } = DefaultSeed;
 
-    double[] spectralWeights;
-    double lacunarity;
-    int octaves;
+    private double[] spectralWeights;
+    private double lacunarity;
+    private int octaves;
 
     /// <summary>
     /// Constructor.
     /// </summary>
-    public RidgedMulti()
-        : base(0)
+    public RidgedMulti() : base(0)
     {
         Lacunarity = DefaultLacunarity;
         OctaveCount = DefaultOctaveCount;

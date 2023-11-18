@@ -1,5 +1,4 @@
-﻿using System;
-namespace SharpNoise.Modules;
+﻿namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that outputs the smaller of the two output values from two
@@ -8,7 +7,6 @@ namespace SharpNoise.Modules;
 /// <remarks>
 /// This noise module requires two source modules.
 /// </remarks>
-[Serializable]
 public class Min : Module
 {
     /// <summary>
@@ -16,8 +14,8 @@ public class Min : Module
     /// </summary>
     public Module Source0
     {
-        get { return SourceModules[0]; }
-        set { SourceModules[0] = value; }
+        get => SourceModules[0];
+        set => SourceModules[0] = value;
     }
 
     /// <summary>
@@ -25,15 +23,14 @@ public class Min : Module
     /// </summary>
     public Module Source1
     {
-        get { return SourceModules[1]; }
-        set { SourceModules[1] = value; }
+        get => SourceModules[1];
+        set => SourceModules[1] = value;
     }
 
     /// <summary>
     /// Constructor.
     /// </summary>
-    public Min()
-        : base(2)
+    public Min() : base(2)
     {
 
     }

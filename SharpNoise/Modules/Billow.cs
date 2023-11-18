@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharpNoise.Modules;
+﻿namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that outputs three-dimensional "billowy" noise.
@@ -15,7 +13,6 @@ namespace SharpNoise.Modules;
 /// information.
 /// <seealso cref="Perlin"/>
 /// </remarks>
-[Serializable]
 public class Billow : Module
 {
     #region Defaults
@@ -100,8 +97,7 @@ public class Billow : Module
     /// <summary>
     /// Constructor.
     /// </summary>
-    public Billow()
-        : base(0)
+    public Billow() : base(0)
     {
     }
 

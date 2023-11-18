@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharpNoise.Modules;
+﻿namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that rotates the input value around the origin before
@@ -20,7 +18,6 @@ namespace SharpNoise.Modules;
 ///
 /// This noise module requires one source module.
 /// </remarks>
-[Serializable]
 public class RotatePoint : Module
 {
     /// <summary>
@@ -39,8 +36,8 @@ public class RotatePoint : Module
     /// </summary>
     public Module Source0
     {
-        get { return SourceModules[0]; }
-        set { SourceModules[0] = value; }
+        get => SourceModules[0];
+        set => SourceModules[0] = value;
     }
 
     /// <summary>
@@ -49,14 +46,8 @@ public class RotatePoint : Module
     /// </summary>
     public double XAngle
     {
-        get
-        {
-            return xAngle;
-        }
-        set
-        {
-            SetAngles(value, yAngle, zAngle);
-        }
+        get => xAngle;
+        set => SetAngles(value, yAngle, zAngle);
     }
 
     /// <summary>
@@ -65,14 +56,8 @@ public class RotatePoint : Module
     /// </summary>
     public double YAngle
     {
-        get
-        {
-            return yAngle;
-        }
-        set
-        {
-            SetAngles(xAngle, value, zAngle);
-        }
+        get => yAngle;
+        set => SetAngles(xAngle, value, zAngle);
     }
 
     /// <summary>
@@ -81,21 +66,14 @@ public class RotatePoint : Module
     /// </summary>
     public double ZAngle
     {
-        get
-        {
-            return zAngle;
-        }
-        set
-        {
-            SetAngles(xAngle, yAngle, value);
-        }
+        get => zAngle;
+        set => SetAngles(xAngle, yAngle, value);
     }
 
     /// <summary>
     /// Constructor.
     /// </summary>
-    public RotatePoint()
-        : base(1)
+    public RotatePoint() : base(1)
     {
         matrix = new double[3, 3];
         SetAngles(DefaultRotation, DefaultRotation, DefaultRotation);

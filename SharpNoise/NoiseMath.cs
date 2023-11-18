@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharpNoise;
+﻿namespace SharpNoise;
 
 /// <summary>
 /// Contains various interpolation methods, and other math helpers
@@ -178,10 +176,10 @@ public static class NoiseMath
     /// </remarks>
     public static void LatLonToXYZ(double lat, double lon, out double x, out double y, out double z)
     {
-        var r = Math.Cos(DegToRad * lat);
-        x = r * Math.Cos(DegToRad * lon);
-        y = Math.Sin(DegToRad * lat);
-        z = r * Math.Sin(DegToRad * lon);
+        (y, double r) = Math.SinCos(DegToRad * lat);
+        (z, x) = Math.SinCos(DegToRad * lon);
+        x *= r;
+        z *= r;
     }
 
     /// <summary>
@@ -223,9 +221,7 @@ public static class NoiseMath
     /// <param name="b">A variable containing the second value.</param>
     public static void Swap<T>(ref T a, ref T b)
     {
-        var c = a;
-        a = b;
-        b = c;
+        (b, a) = (a, b);
     }
 
     /// <summary>

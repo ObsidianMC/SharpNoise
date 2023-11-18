@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 namespace SharpNoise;
 
@@ -11,17 +10,20 @@ public static class NoiseGenerator
     // A table of 256 random normalized vectors.  Each row is an (x, y, z, 0)
     // coordinate.  The 0 is used as padding so we can use bit shifts to index
     // any row in the table.
-    static readonly double[] vectortable = new double[1024];
+    private static readonly double[] vectortable = new double[1024];
 
     // Constants used by the current version of libnoise.
-    const int XNoiseGen = 1619;
-    const int YNoiseGen = 31337;
-    const int ZNoiseGen = 6971;
-    const int SeedNoiseGen = 1013;
-    const int ShiftNoiseGen = 8;
+    private const int XNoiseGen = 1619;
+    private const int YNoiseGen = 31337;
+    private const int ZNoiseGen = 6971;
+    private const int SeedNoiseGen = 1013;
+    private const int ShiftNoiseGen = 8;
 
-    static readonly double[] DefaultVectors =
-    {
+    /// <summary>
+    /// Gets a read-only wrapper of the default Vector Table
+    /// </summary>
+    public static ReadOnlySpan<double> DefaultVectors =>
+    [
         -0.763874, -0.596439, -0.246489, 0.0,
         0.396055, 0.904518, -0.158073, 0.0,
         -0.499004, -0.8665, -0.0131631, 0.0,
@@ -278,29 +280,12 @@ public static class NoiseGenerator
         -0.859262, 0.143405, -0.491024, 0.0,
         0.991353, 0.112814, 0.0670273, 0.0,
         0.0337884, -0.979891, -0.196654, 0.0
-    };
-
-    /// <summary>
-    /// Gets a read-only wrapper of the default Vector Table
-    /// </summary>
-    public static ReadOnlyCollection<double> DefaultVectorTable
-    {
-        get
-        {
-            return Array.AsReadOnly(DefaultVectors);
-        }
-    }
+    ];
 
     /// <summary>
     /// Gets a read-only wrapper of the current Vector Table
     /// </summary>
-    public static ReadOnlyCollection<double> VectorTable
-    {
-        get
-        {
-            return Array.AsReadOnly(vectortable);
-        }
-    }
+    public static ReadOnlyCollection<double> VectorTable => Array.AsReadOnly(vectortable);
 
     /// <summary>
     /// ReInitialize the Noise Generator with a given vector table.
@@ -312,14 +297,12 @@ public static class NoiseGenerator
     /// 
     /// x, y and z values should be in range [0, 1], while 0 is obviously 0.
     /// </remarks>
-    public static void SetVectorTable(double[] table)
+    public static void SetVectorTable(ReadOnlySpan<double> table)
     {
-        if (table == null)
-            throw new ArgumentNullException("table");
         if (table.Length != vectortable.Length)
-            throw new ArgumentException("The given vector table isn't the right size (" + vectortable.Length + ")");
+            throw new ArgumentException($"The given vector table isn't the right size ({vectortable.Length})");
 
-        Array.Copy(table, vectortable, vectortable.Length);
+        table.CopyTo(vectortable);
     }
 
     /// <summary>
@@ -342,7 +325,7 @@ public static class NoiseGenerator
     /// </remarks>
     public static double[] GenerateRandomVectorTable()
     {
-        return GenerateRandomVectorTable(Environment.TickCount ^ (int)TimeSpan.FromTicks(DateTime.Now.Ticks).TotalMilliseconds);
+        return GenerateRandomVectorTable(Random.Shared);
     }
 
     /// <summary>
@@ -352,14 +335,18 @@ public static class NoiseGenerator
     /// <returns>An array of doubles that can serve as a vector table</returns>
     public static double[] GenerateRandomVectorTable(int seed)
     {
+        return GenerateRandomVectorTable(new Random(seed));
+    }
+
+    private static double[] GenerateRandomVectorTable(Random random)
+    {
         var table = new double[1024];
-        var rng = new Random(seed);
 
         for (var i = 0; i < vectortable.Length; i += 4)
         {
-            vectortable[i] = (rng.NextDouble() * 2D) - 1D;
-            vectortable[i + 1] = (rng.NextDouble() * 2D) - 1D;
-            vectortable[i + 2] = (rng.NextDouble() * 2D) - 1D;
+            vectortable[i] = (random.NextDouble() * 2D) - 1D;
+            vectortable[i + 1] = (random.NextDouble() * 2D) - 1D;
+            vectortable[i + 2] = (random.NextDouble() * 2D) - 1D;
             vectortable[i + 3] = 0D;
         }
 
@@ -400,25 +387,13 @@ public static class NoiseGenerator
 
         // Map the difference between the coordinates of the input value and the
         // coordinates of the cube's outer-lower-left vertex onto an S-curve.
-        double xs = 0D, ys = 0D, zs = 0D;
-        switch (noiseQuality)
+        (double xs, double ys, double zs) = noiseQuality switch
         {
-            case NoiseQuality.Fast:
-                xs = (x - (double)x0);
-                ys = (y - (double)y0);
-                zs = (z - (double)z0);
-                break;
-            case NoiseQuality.Standard:
-                xs = NoiseMath.SCurve3(x - (double)x0);
-                ys = NoiseMath.SCurve3(y - (double)y0);
-                zs = NoiseMath.SCurve3(z - (double)z0);
-                break;
-            case NoiseQuality.Best:
-                xs = NoiseMath.SCurve5(x - (double)x0);
-                ys = NoiseMath.SCurve5(y - (double)y0);
-                zs = NoiseMath.SCurve5(z - (double)z0);
-                break;
-        }
+            NoiseQuality.Fast => (x - x0, y - y0, z - z0),
+            NoiseQuality.Standard => (NoiseMath.SCurve3(x - x0), NoiseMath.SCurve3(y - y0), NoiseMath.SCurve3(z - z0)),
+            NoiseQuality.Best => (NoiseMath.SCurve5(x - x0), NoiseMath.SCurve5(y - y0), NoiseMath.SCurve5(z - z0)),
+            _ => (0, 0, 0)
+        };
 
         // Now calculate the noise values at each vertex of the cube.  To generate
         // the coherent-noise value at the input point, interpolate these eight
@@ -505,9 +480,9 @@ public static class NoiseGenerator
 
             // Set up us another vector equal to the distance between the two vectors
             // passed to this function.
-            var xvPoint = (fx - (double)ix);
-            var yvPoint = (fy - (double)iy);
-            var zvPoint = (fz - (double)iz);
+            var xvPoint = (fx - ix);
+            var yvPoint = (fy - iy);
+            var zvPoint = (fz - iz);
 
             // Now compute the dot product of the gradient vector with the distance
             // vector.  The resulting value is gradient noise.  Apply a scaling value
@@ -579,25 +554,13 @@ public static class NoiseGenerator
 
         // Map the difference between the coordinates of the input value and the
         // coordinates of the cube's outer-lower-left vertex onto an S-curve.
-        double xs = 0, ys = 0, zs = 0;
-        switch (noiseQuality)
+        (double xs, double ys, double zs) = noiseQuality switch
         {
-            case NoiseQuality.Fast:
-                xs = (x - (double)x0);
-                ys = (y - (double)y0);
-                zs = (z - (double)z0);
-                break;
-            case NoiseQuality.Standard:
-                xs = NoiseMath.SCurve3(x - (double)x0);
-                ys = NoiseMath.SCurve3(y - (double)y0);
-                zs = NoiseMath.SCurve3(z - (double)z0);
-                break;
-            case NoiseQuality.Best:
-                xs = NoiseMath.SCurve5(x - (double)x0);
-                ys = NoiseMath.SCurve5(y - (double)y0);
-                zs = NoiseMath.SCurve5(z - (double)z0);
-                break;
-        }
+            NoiseQuality.Fast => (x - x0, y - y0, z - z0),
+            NoiseQuality.Standard => (NoiseMath.SCurve3(x - x0), NoiseMath.SCurve3(y - y0), NoiseMath.SCurve3(z - z0)),
+            NoiseQuality.Best => (NoiseMath.SCurve5(x - x0), NoiseMath.SCurve5(y - y0), NoiseMath.SCurve5(z - z0)),
+            _ => (0, 0, 0)
+        };
 
         // Now calculate the noise values at each vertex of the cube.  To generate
         // the coherent-noise value at the input point, interpolate these eight
@@ -640,6 +603,6 @@ public static class NoiseGenerator
     /// </remarks>
     public static double ValueNoise3D(int x, int y, int z, int seed = 0)
     {
-        return 1.0 - ((double)IntValueNoise3D(x, y, z, seed) / 1073741824.0);
+        return 1.0 - (IntValueNoise3D(x, y, z, seed) / 1073741824.0);
     }
 }

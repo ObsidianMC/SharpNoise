@@ -94,14 +94,13 @@ namespace SharpNoise.Utilities.Imaging;
 /// </remarks>
 public class ImageRenderer
 {
-    readonly GradientColor gradient;
-
-    bool recalcLightValues;
-    double sinAzimuth, cosAzimuth;
-    double sinElevation, cosElevation;
+    private readonly GradientColor gradient;
+    private bool recalcLightValues;
+    private double sinAzimuth, cosAzimuth;
+    private double sinElevation, cosElevation;
 
     // backing fields for properties
-    double lightIntensity, lightElevation, lightContrast, lightBrightness, lightAzimuth;
+    private double lightIntensity, lightElevation, lightContrast, lightBrightness, lightAzimuth;
 
     /// <summary>
     /// Enables or disables the light source.
@@ -144,7 +143,7 @@ public class ImageRenderer
     /// </remarks>
     public double LightAzimuth
     {
-        get { return lightAzimuth; }
+        get => lightAzimuth;
         set
         {
             lightAzimuth = value;
@@ -161,7 +160,7 @@ public class ImageRenderer
     /// </remarks>
     public double LightBrightness
     {
-        get { return lightBrightness; }
+        get => lightBrightness;
         set
         {
             lightBrightness = value;
@@ -191,7 +190,7 @@ public class ImageRenderer
     /// </remarks>
     public double LightElevation
     {
-        get { return lightElevation; }
+        get => lightElevation;
         set
         {
             lightElevation = value;
@@ -210,7 +209,7 @@ public class ImageRenderer
     /// </remarks>
     public double LightIntensity
     {
-        get { return lightIntensity; }
+        get => lightIntensity;
         set
         {
             if (value < 0D)
@@ -240,7 +239,7 @@ public class ImageRenderer
     /// </remarks>
     public double LightContrast
     {
-        get { return lightContrast; }
+        get => lightContrast;
         set
         {
             if (value < 0D)
@@ -376,8 +375,8 @@ public class ImageRenderer
     /// </remarks>
     public void Render()
     {
-        if (SourceNoiseMap == null ||
-            DestinationImage == null ||
+        if (SourceNoiseMap is null ||
+            DestinationImage is null ||
             SourceNoiseMap.Width <= 0 ||
             SourceNoiseMap.Height <= 0 ||
             gradient.PointCount < 2)
@@ -390,7 +389,7 @@ public class ImageRenderer
 
         // If a background image was provided, make sure it is the same size the
         // source noise map.
-        if (BackgroundImage != null)
+        if (BackgroundImage is not null)
         {
             if (BackgroundImage.Width != width ||
                 BackgroundImage.Height != height)
@@ -512,7 +511,7 @@ public class ImageRenderer
 
                 // Get the current background color from the background image.
                 Color backgroundColor;
-                if (BackgroundImage != null)
+                if (BackgroundImage is not null)
                     backgroundColor = BackgroundImage[x, y];
                 else
                     backgroundColor = new Color(255, 255, 255, 255);
@@ -534,15 +533,15 @@ public class ImageRenderer
     /// corresponding position.</param>
     /// <param name="lightValue">The intensity of the light at that position.</param>
     /// <returns>The destination color.</returns>
-    Color CalcDestinationColor(Color sourceColor, Color backgroundColor, double lightValue)
+    private Color CalcDestinationColor(Color sourceColor, Color backgroundColor, double lightValue)
     {
-        var sourceRed = (double)sourceColor.Red / 255.0;
-        var sourceGreen = (double)sourceColor.Green / 255.0;
-        var sourceBlue = (double)sourceColor.Blue / 255.0;
-        var sourceAlpha = (double)sourceColor.Alpha / 255.0;
-        var backgroundRed = (double)backgroundColor.Red / 255.0;
-        var backgroundGreen = (double)backgroundColor.Green / 255.0;
-        var backgroundBlue = (double)backgroundColor.Blue / 255.0;
+        var sourceRed = sourceColor.Red / 255.0;
+        var sourceGreen = sourceColor.Green / 255.0;
+        var sourceBlue = sourceColor.Blue / 255.0;
+        var sourceAlpha = sourceColor.Alpha / 255.0;
+        var backgroundRed = backgroundColor.Red / 255.0;
+        var backgroundGreen = backgroundColor.Green / 255.0;
+        var backgroundBlue = backgroundColor.Blue / 255.0;
 
         // First, blend the source color to the background color using the alpha
         // of the source color.
@@ -553,9 +552,9 @@ public class ImageRenderer
         if (EnableLight)
         {
             // Now calculate the light color.
-            var lightRed = lightValue * (double)LightColor.Red / 255.0;
-            var lightGreen = lightValue * (double)LightColor.Green / 255.0;
-            var lightBlue = lightValue * (double)LightColor.Blue / 255.0;
+            var lightRed = lightValue * LightColor.Red / 255.0;
+            var lightGreen = lightValue * LightColor.Green / 255.0;
+            var lightBlue = lightValue * LightColor.Blue / 255.0;
 
             // Apply the light color to the new color.
             red *= lightRed;
@@ -570,7 +569,7 @@ public class ImageRenderer
 
         // Rescale the color channels to the (0..255) range and return
         // the new color.
-        Color newColor = new Color(
+        var newColor = new Color(
             (byte)((int)(red * 255) & 0xff),
             (byte)((int)(green * 255) & 0xff),
             (byte)((int)(blue * 255) & 0xff),
@@ -593,7 +592,7 @@ public class ImageRenderer
     /// <remarks>
     /// These values come directly from the noise map.
     /// </remarks>
-    double CalcLightIntensity(double center, double left, double right, double down, double up)
+    private double CalcLightIntensity(double center, double left, double right, double down, double up)
     {
         // Recalculate the sine and cosine of the various light values if
         // necessary so it does not have to be calculated each time this method is

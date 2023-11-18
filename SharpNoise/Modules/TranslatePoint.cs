@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharpNoise.Modules;
+﻿namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that moves the coordinates of the input value before
@@ -17,7 +15,6 @@ namespace SharpNoise.Modules;
 ///
 /// This noise module requires one source module.
 /// </remarks>
-[Serializable]
 public class TranslatePoint : Module
 {
     /// <summary>
@@ -30,8 +27,8 @@ public class TranslatePoint : Module
     /// </summary>
     public Module Source0
     {
-        get { return SourceModules[0]; }
-        set { SourceModules[0] = value; }
+        get => SourceModules[0];
+        set => SourceModules[0] = value;
     }
 
     /// <summary>
@@ -55,8 +52,7 @@ public class TranslatePoint : Module
     /// <summary>
     /// Constructor.
     /// </summary>
-    public TranslatePoint()
-        : base(1)
+    public TranslatePoint() : base(1)
     {
     }
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharpNoise.Modules;
+﻿namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that outputs a constant value.
@@ -13,7 +11,6 @@ namespace SharpNoise.Modules;
 ///
 /// This noise module does not require any source modules.
 /// </remarks>
-[Serializable]
 public class Constant : Module
 {
     /// <summary>
@@ -29,8 +26,7 @@ public class Constant : Module
     /// <summary>
     /// Constructor.
     /// </summary>
-    public Constant()
-        : base(0)
+    public Constant() : base(0)
     {
     }
 

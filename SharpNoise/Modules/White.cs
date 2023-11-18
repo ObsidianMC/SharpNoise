@@ -1,13 +1,10 @@
-﻿using System;
-
-namespace SharpNoise.Modules;
+﻿namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that outputs 3-dimensional White noise.
 /// </summary>
 /// References &amp; acknowledgments
 /// http://www.dspguru.com/dsp/howtos/how-to-generate-white-gaussian-noise
-[Serializable]
 public class White : Module
 {
     public int Scale { get; set; }
@@ -17,8 +14,7 @@ public class White : Module
     /// <summary>
     /// Constructor
     /// </summary>
-    public White()
-        : base(0)
+    public White() : base(0)
     {
         Scale = 256;
     }

@@ -1,6 +1,4 @@
-﻿using System;
-
-using SharpNoise.Modules;
+﻿using SharpNoise.Modules;
 
 namespace SharpNoise.Models;
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharpNoise.Modules;
+﻿namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that outputs Voronoi cells.
@@ -48,7 +46,6 @@ namespace SharpNoise.Modules;
 /// 
 /// This noise module requires no source modules.
 /// </remarks>
-[Serializable]
 public class Cell : Module
 {
     public enum CellType
@@ -246,8 +243,7 @@ public class Cell : Module
     /// <summary>
     /// Constructor.
     /// </summary>
-    public Cell()
-        : base(0)
+    public Cell() : base(0)
     {
         EnableDistance = DefaultEnableDistance;
         Displacement = DefaultDisplacement;

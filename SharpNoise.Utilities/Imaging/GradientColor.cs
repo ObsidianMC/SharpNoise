@@ -83,7 +83,7 @@ public class GradientColor
         }
     }
 
-    readonly List<GradientPoint> gradientPoints;
+    private readonly List<GradientPoint> gradientPoints;
 
     /// <summary>
     /// Gets the amount of gradient points in the gradient

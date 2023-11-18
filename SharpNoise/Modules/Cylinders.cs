@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace SharpNoise.Modules;
+﻿namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that outputs concentric cylinders.
@@ -32,7 +27,6 @@ namespace SharpNoise.Modules;
 ///
 /// This noise module does not require any source modules.
 /// </remarks>
-[Serializable]
 public class Cylinders : Module
 {
     /// <summary>
@@ -52,8 +46,7 @@ public class Cylinders : Module
     /// <summary>
     /// Constructor.
     /// </summary>
-    public Cylinders()
-        : base(0)
+    public Cylinders() : base(0)
     {
     }
 

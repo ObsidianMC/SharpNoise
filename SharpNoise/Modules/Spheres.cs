@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharpNoise.Modules;
+﻿namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that outputs concentric spheres.
@@ -27,7 +25,6 @@ namespace SharpNoise.Modules;
 ///
 /// This noise module does not require any source modules. 
 /// </remarks>
-[Serializable]
 public class Spheres : Module
 {
     /// <summary>
@@ -47,8 +44,7 @@ public class Spheres : Module
     /// <summary>
     /// Constructor.
     /// </summary>
-    public Spheres()
-        : base(0)
+    public Spheres() : base(0)
     {
     }
 

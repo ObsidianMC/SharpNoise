@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 
 namespace SharpNoise;
@@ -15,11 +14,10 @@ public abstract class Map<T> where T : struct
     /// </summary>
     public sealed class LineIterator : IEnumerator<T>, IEnumerable<T>
     {
-        int currentIndex;
-        T currentItem;
-
-        readonly Map<T> map;
-        readonly int lowerIndex, upperIndex;
+        private int currentIndex;
+        private T currentItem;
+        private readonly Map<T> map;
+        private readonly int lowerIndex, upperIndex;
 
         public T Current
         {
@@ -100,13 +98,7 @@ public abstract class Map<T> where T : struct
     /// <summary>
     /// Gets a value indicating whether the Map is empty
     /// </summary>
-    public bool IsEmpty
-    {
-        get
-        {
-            return values == null;
-        }
-    }
+    public bool IsEmpty => values is null;
 
     /// <summary>
     /// Constructor for an empty Map.
@@ -137,8 +129,7 @@ public abstract class Map<T> where T : struct
     /// <param name="other">The Map to copy</param>
     protected Map(Map<T> other)
     {
-        if (other == null)
-            throw new ArgumentNullException("other");
+        ArgumentNullException.ThrowIfNull(other);
 
         SetSize(other.Height, other.Width);
         other.values.CopyTo(values, 0);
@@ -195,13 +186,7 @@ public abstract class Map<T> where T : struct
     /// <remarks>
     /// This should be used for bulk reading of values.
     /// </remarks>
-    public T[] Data
-    {
-        get
-        {
-            return values;
-        }
-    }
+    public T[] Data => values;
 
     /// <summary>
     /// Create a LineIterator for the specified row in the Map.
@@ -236,7 +221,7 @@ public abstract class Map<T> where T : struct
     /// </param>
     public void Clear(T value)
     {
-        if (values != null)
+        if (values is not null)
         {
             for (var i = 0; i < values.Length; i++)
                 values[i] = value;
@@ -258,7 +243,9 @@ public abstract class Map<T> where T : struct
             throw new ArgumentException("width and height cannot be less than 0.");
 
         if (width == 0 || height == 0)
+        {
             ResetMap();
+        }
         else
         {
             values = new T[width * height];
@@ -278,14 +265,8 @@ public abstract class Map<T> where T : struct
     /// </remarks>
     public T this[int x, int y]
     {
-        get
-        {
-            return GetValue(x, y);
-        }
-        set
-        {
-            SetValue(x, y, value);
-        }
+        get => GetValue(x, y);
+        set => SetValue(x, y, value);
     }
 
     /// <summary>
@@ -300,12 +281,14 @@ public abstract class Map<T> where T : struct
     /// </remarks>
     public T GetValue(int x, int y)
     {
-        if (values != null)
+        if (values is null)
         {
-            if (x >= 0 && x < Width && y >= 0 && y < Height)
-            {
-                return values[GetIndex(x, y)];
-            }
+            return BorderValue;
+        }
+
+        if (x >= 0 && x < Width && y >= 0 && y < Height)
+        {
+            return values[GetIndex(x, y)];
         }
 
         return BorderValue;
@@ -323,12 +306,14 @@ public abstract class Map<T> where T : struct
     /// </remarks>
     public void SetValue(int x, int y, T value)
     {
-        if (values != null)
+        if (values is null)
         {
-            if (x >= 0 && x < Width && y >= 0 && y < Height)
-            {
-                values[GetIndex(x, y)] = value;
-            }
+            return;
+        }
+
+        if (x >= 0 && x < Width && y >= 0 && y < Height)
+        {
+            values[GetIndex(x, y)] = value;
         }
     }
 }

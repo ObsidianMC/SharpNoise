@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharpNoise.Modules;
+﻿namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that inverts the output value from a source module.
@@ -8,7 +6,6 @@ namespace SharpNoise.Modules;
 /// <remarks>
 /// This noise module requires one source module.
 /// </remarks>
-[Serializable]
 public class Invert : Module
 {
     /// <summary>
@@ -16,15 +13,14 @@ public class Invert : Module
     /// </summary>
     public Module Source0
     {
-        get { return SourceModules[0]; }
-        set { SourceModules[0] = value; }
+        get => SourceModules[0];
+        set => SourceModules[0] = value;
     }
 
     /// <summary>
     /// Constructor.
     /// </summary>
-    public Invert()
-        : base(1)
+    public Invert() : base(1)
     {
 
     }

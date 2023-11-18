@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharpNoise.Modules;
+﻿namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that scales the coordinates of the input value before
@@ -16,7 +14,6 @@ namespace SharpNoise.Modules;
 ///
 /// This noise module requires one source module.
 /// </remarks>
-[Serializable]
 public class ScalePoint : Module
 {
     /// <summary>
@@ -29,8 +26,8 @@ public class ScalePoint : Module
     /// </summary>
     public Module Source0
     {
-        get { return SourceModules[0]; }
-        set { SourceModules[0] = value; }
+        get => SourceModules[0];
+        set => SourceModules[0] = value;
     }
 
     /// <summary>
@@ -78,8 +75,7 @@ public class ScalePoint : Module
     /// <summary>
     /// Constructor.
     /// </summary>
-    public ScalePoint()
-        : base(1)
+    public ScalePoint() : base(1)
     {
     }
 

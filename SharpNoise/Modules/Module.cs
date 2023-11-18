@@ -1,9 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-
-namespace SharpNoise.Modules;
+﻿namespace SharpNoise.Modules;
 
 /// <summary>
 /// Abstract base class for noise modules.
@@ -264,7 +259,6 @@ namespace SharpNoise.Modules;
 /// <see cref="Add" />, which is a very simple noise module.
 /// </para>
 /// </remarks>
-[Serializable]
 public abstract class Module
 {
     private readonly Module[] sourceModules;
@@ -273,11 +267,11 @@ public abstract class Module
     /// Returns the number of source modules required by this noise
     /// module.
     /// </summary>
-    public int SourceModuleCount { get { return sourceModules.Length; } }
+    public int SourceModuleCount => sourceModules.Length;
 
-    public Module[] SourceModules { get { return sourceModules; } }
+    public Module[] SourceModules => sourceModules;
 
-    static readonly Module[] emptyModulesArray = new Module[0];
+    private static readonly Module[] emptyModulesArray = [];
 
     /// <summary>
     /// Constructor, called from derived classes
@@ -288,10 +282,7 @@ public abstract class Module
         if (sourceModuleCount < 0)
             throw new ArgumentException("sourceModuleCount < 0");
 
-        if (sourceModuleCount > 0)
-            sourceModules = new Module[sourceModuleCount];
-        else
-            sourceModules = emptyModulesArray;
+        sourceModules = sourceModuleCount > 0 ? new Module[sourceModuleCount] : emptyModulesArray;
     }
 
     /// <summary>

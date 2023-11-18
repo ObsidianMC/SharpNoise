@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharpNoise.Modules;
+﻿namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that uses three source modules to displace each
@@ -47,7 +45,6 @@ namespace SharpNoise.Modules;
 ///
 /// This noise module requires four source modules.
 /// </remarks>
-[Serializable]
 public class Displace : Module
 {
     /// <summary>
@@ -55,8 +52,8 @@ public class Displace : Module
     /// </summary>
     public Module Source0
     {
-        get { return SourceModules[0]; }
-        set { SourceModules[0] = value; }
+        get => SourceModules[0];
+        set => SourceModules[0] = value;
     }
 
     /// <summary>
@@ -70,8 +67,8 @@ public class Displace : Module
     /// </remarks>
     public Module XDisplace
     {
-        get { return SourceModules[1]; }
-        set { SourceModules[1] = value; }
+        get => SourceModules[1];
+        set => SourceModules[1] = value;
     }
 
     /// <summary>
@@ -85,8 +82,8 @@ public class Displace : Module
     /// </remarks>
     public Module YDisplace
     {
-        get { return SourceModules[2]; }
-        set { SourceModules[2] = value; }
+        get => SourceModules[2];
+        set => SourceModules[2] = value;
     }
 
     /// <summary>
@@ -100,15 +97,14 @@ public class Displace : Module
     /// </remarks>
     public Module ZDisplace
     {
-        get { return SourceModules[3]; }
-        set { SourceModules[3] = value; }
+        get => SourceModules[3];
+        set => SourceModules[3] = value;
     }
 
     /// <summary>
     /// Constructor.
     /// </summary>
-    public Displace()
-        : base(4)
+    public Displace() : base(4)
     {
     }
 

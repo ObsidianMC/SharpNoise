@@ -7,10 +7,10 @@ namespace SharpNoise.Tests;
 
 public class GraniteTextureTest
 {
-    readonly Module module;
-    readonly NoiseMap noiseMap;
-    readonly ImageRenderer renderer;
-    readonly Image textureImage;
+    private readonly Module module;
+    private readonly NoiseMap noiseMap;
+    private readonly ImageRenderer renderer;
+    private readonly Image textureImage;
 
     public GraniteTextureTest()
     {

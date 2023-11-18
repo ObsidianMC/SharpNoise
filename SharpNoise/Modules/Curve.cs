@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 
 namespace SharpNoise.Modules;
 
@@ -41,11 +39,7 @@ public class Curve : Module
 
         public override bool Equals(object obj)
         {
-            if (obj is ControlPoint)
-            {
-                return Equals((ControlPoint)obj);
-            }
-            return false;
+            return obj is ControlPoint point && Equals(point);
         }
 
         public override int GetHashCode()
@@ -60,9 +54,7 @@ public class Curve : Module
         /// <returns>Returns true, if other's InputValue equals this' InputValue</returns>
         public bool Equals(ControlPoint other)
         {
-            if (InputValue == other.InputValue)
-                return true;
-            return false;
+            return InputValue == other.InputValue;
         }
 
         // Here, too, only InputValues are taken into account
@@ -103,22 +95,21 @@ public class Curve : Module
         }
     }
 
-    readonly List<ControlPoint> controlPoints;
+    private readonly List<ControlPoint> controlPoints;
 
     /// <summary>
     /// Gets or sets the first source module
     /// </summary>
     public Module Source0
     {
-        get { return SourceModules[0]; }
-        set { SourceModules[0] = value; }
+        get => SourceModules[0];
+        set => SourceModules[0] = value;
     }
 
     /// <summary>
     /// Constructor.
     /// </summary>
-    public Curve()
-        : base(1)
+    public Curve() : base(1)
     {
         controlPoints = new List<ControlPoint>();
     }
@@ -157,10 +148,7 @@ public class Curve : Module
     /// </summary>
     public IEnumerable<ControlPoint> ControlPoints
     {
-        get
-        {
-            return controlPoints.AsReadOnly();
-        }
+        get => controlPoints.AsReadOnly();
         set
         {
             controlPoints.Clear();

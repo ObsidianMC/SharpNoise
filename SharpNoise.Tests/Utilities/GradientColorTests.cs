@@ -6,7 +6,7 @@ namespace SharpNoise.Tests.Utilities;
 
 public class GradientColorTests
 {
-    readonly GradientColor gradient;
+    private readonly GradientColor gradient;
 
     public GradientColorTests()
     {

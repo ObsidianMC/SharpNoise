@@ -71,10 +71,10 @@ public struct Color : IEquatable<Color>
         return System.Drawing.Color.FromArgb(Alpha, Red, Green, Blue);
     }
 
-    static byte BlendChannel(byte channel0, byte channel1, float alpha)
+    private static byte BlendChannel(byte channel0, byte channel1, float alpha)
     {
-        var c0 = (float)channel0 / 255F;
-        var c1 = (float)channel1 / 255F;
+        var c0 = channel0 / 255F;
+        var c1 = channel1 / 255F;
         return (byte)(((c1 * alpha) + (c0 * (1f - alpha))) * 255f);
     }
 

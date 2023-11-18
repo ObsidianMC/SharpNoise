@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharpNoise.Modules;
+﻿namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that raises the output value from a first source module
@@ -12,7 +10,6 @@ namespace SharpNoise.Modules;
 ///
 /// This noise module requires two source modules.
 /// </remarks>
-[Serializable]
 public class Power : Module
 {
     /// <summary>
@@ -20,8 +17,8 @@ public class Power : Module
     /// </summary>
     public Module Source0
     {
-        get { return SourceModules[0]; }
-        set { SourceModules[0] = value; }
+        get => SourceModules[0];
+        set => SourceModules[0] = value;
     }
 
     /// <summary>
@@ -29,15 +26,14 @@ public class Power : Module
     /// </summary>
     public Module Source1
     {
-        get { return SourceModules[1]; }
-        set { SourceModules[1] = value; }
+        get => SourceModules[1];
+        set => SourceModules[1] = value;
     }
 
     /// <summary>
     /// Constructor.
     /// </summary>
-    public Power()
-        : base(2)
+    public Power() : base(2)
     {
 
     }

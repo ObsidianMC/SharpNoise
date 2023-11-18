@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-using SharpNoise.Models;
+﻿using SharpNoise.Models;
 
 namespace SharpNoise.Builders;
 
@@ -80,8 +76,8 @@ public class CylinderNoiseMapBuilder : NoiseMapBuilder
             LowerHeightBound >= UpperHeightBound ||
             destWidth <= 0 ||
             destHeight <= 0 ||
-            SourceModule == null ||
-            DestNoiseMap == null)
+            SourceModule is null ||
+            DestNoiseMap is null)
             throw new InvalidOperationException("Builder isn't properly set up.");
 
         DestNoiseMap.SetSize(destHeight, destWidth);
@@ -89,7 +85,7 @@ public class CylinderNoiseMapBuilder : NoiseMapBuilder
 
     protected override void BuildImpl(CancellationToken cancellationToken)
     {
-        Cylinder cylinderModel = new Cylinder(SourceModule);
+        var cylinderModel = new Cylinder(SourceModule);
 
         var angleExtent = UpperAngleBound - LowerAngleBound;
         var heightExtent = UpperHeightBound - LowerHeightBound;

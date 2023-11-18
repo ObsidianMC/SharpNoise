@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-namespace SharpNoise;
+﻿namespace SharpNoise;
 
 /// <summary>
 /// Implements a noise map, a 2-dimensional array of floating-point
@@ -20,24 +19,12 @@ namespace SharpNoise;
 /// </remarks>
 public class NoiseMap : Map<float>
 {
-    public override int UsedMemory
-    {
-        get
-        {
-            return values.Length * sizeof(float);
-        }
-    }
+    public override int UsedMemory => values.Length * sizeof(float);
 
     /// <summary>
     /// Constructor.
     /// </summary>
-    public NoiseMap() { }
-
-    /// <summary>
-    /// Constructor.
-    /// </summary>
-    public NoiseMap(int width, int height)
-        : base(width, height)
+    public NoiseMap()
     {
 
     }
@@ -45,8 +32,15 @@ public class NoiseMap : Map<float>
     /// <summary>
     /// Constructor.
     /// </summary>
-    public NoiseMap(NoiseMap other)
-        : base(other)
+    public NoiseMap(int width, int height) : base(width, height)
+    {
+
+    }
+
+    /// <summary>
+    /// Constructor.
+    /// </summary>
+    public NoiseMap(NoiseMap other) : base(other)
     {
 
     }

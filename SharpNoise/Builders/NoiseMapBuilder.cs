@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-using SharpNoise.Modules;
+﻿using SharpNoise.Modules;
 
 namespace SharpNoise.Builders;
 

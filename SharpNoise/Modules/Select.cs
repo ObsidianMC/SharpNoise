@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharpNoise.Modules;
+﻿namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that outputs the value selected from one of two source
@@ -47,7 +45,6 @@ namespace SharpNoise.Modules;
 ///
 /// This noise module requires three source modules.
 /// </remarks>
-[Serializable]
 public class Select : Module
 {
     /// <summary>
@@ -64,9 +61,8 @@ public class Select : Module
     /// Default upper bound of the selection range
     /// </summary>
     public const double DefaultUpperBound = 1D;
-
-    double edgeFalloff;
-    double lowerBound, upperBound;
+    private double edgeFalloff;
+    private double lowerBound, upperBound;
 
     /// <summary>
     /// Gets or sets the falloff value at the edge transition.
@@ -123,15 +119,12 @@ public class Select : Module
     /// </remarks>
     public double EdgeFalloff
     {
-        get
-        {
-            return edgeFalloff;
-        }
+        get => edgeFalloff;
         set
         {
             // Make sure that the edge falloff curves do not overlap.
             var boundSize = UpperBound - LowerBound;
-            edgeFalloff = (value > boundSize / 2) ? boundSize / 2 : value;
+            edgeFalloff = (value + value > boundSize) ? boundSize / 2 : value;
         }
     }
 
@@ -146,8 +139,8 @@ public class Select : Module
     /// </remarks>
     public double LowerBound
     {
-        get { return lowerBound; }
-        set { SetBounds(value, upperBound); }
+        get => lowerBound;
+        set => SetBounds(value, upperBound);
     }
 
     /// <summary>
@@ -161,8 +154,8 @@ public class Select : Module
     /// </remarks>
     public double UpperBound
     {
-        get { return upperBound; }
-        set { SetBounds(lowerBound, value); }
+        get => upperBound;
+        set => SetBounds(lowerBound, value);
     }
 
     /// <summary>
@@ -170,8 +163,8 @@ public class Select : Module
     /// </summary>
     public Module Source0
     {
-        get { return SourceModules[0]; }
-        set { SourceModules[0] = value; }
+        get => SourceModules[0];
+        set => SourceModules[0] = value;
     }
 
     /// <summary>
@@ -179,8 +172,8 @@ public class Select : Module
     /// </summary>
     public Module Source1
     {
-        get { return SourceModules[1]; }
-        set { SourceModules[1] = value; }
+        get => SourceModules[1];
+        set => SourceModules[1] = value;
     }
 
     /// <summary>
@@ -196,15 +189,14 @@ public class Select : Module
     /// </remarks>
     public Module Control
     {
-        get { return SourceModules[2]; }
-        set { SourceModules[2] = value; }
+        get => SourceModules[2];
+        set => SourceModules[2] = value;
     }
 
     /// <summary>
     /// Constructor.
     /// </summary>
-    public Select()
-        : base(3)
+    public Select() : base(3)
     {
         EdgeFalloff = DefaultEdgeFalloff;
         LowerBound = DefaultLowerBound;
@@ -245,58 +237,58 @@ public class Select : Module
     public override double GetValue(double x, double y, double z)
     {
         var controlValue = SourceModules[2].GetValue(x, y, z);
-        double alpha;
-        if (EdgeFalloff > 0.0)
-        {
-            if (controlValue < (LowerBound - EdgeFalloff))
-            {
-                // The output value from the control module is below the selector
-                // threshold; return the output value from the first source module.
-                return SourceModules[0].GetValue(x, y, z);
-            }
-            else if (controlValue < (LowerBound + EdgeFalloff))
-            {
-                // The output value from the control module is near the lower end of the
-                // selector threshold and within the smooth curve. Interpolate between
-                // the output values from the first and second source modules.
-                double lowerCurve = (LowerBound - EdgeFalloff);
-                double upperCurve = (LowerBound + EdgeFalloff);
-                alpha = NoiseMath.SCurve3((controlValue - lowerCurve) / (upperCurve - lowerCurve));
-                return NoiseMath.Linear(SourceModules[0].GetValue(x, y, z),
-                  SourceModules[1].GetValue(x, y, z),
-                  alpha);
-            }
-            else if (controlValue < (UpperBound - EdgeFalloff))
-            {
-                // The output value from the control module is within the selector
-                // threshold; return the output value from the second source module.
-                return SourceModules[1].GetValue(x, y, z);
-            }
-            else if (controlValue < (UpperBound + EdgeFalloff))
-            {
-                // The output value from the control module is near the upper end of the
-                // selector threshold and within the smooth curve. Interpolate between
-                // the output values from the first and second source modules.
-                double lowerCurve = (UpperBound - EdgeFalloff);
-                double upperCurve = (UpperBound + EdgeFalloff);
-                alpha = NoiseMath.SCurve3((controlValue - lowerCurve) / (upperCurve - lowerCurve));
-                return NoiseMath.Linear(SourceModules[1].GetValue(x, y, z),
-                  SourceModules[0].GetValue(x, y, z),
-                  alpha);
-            }
-            else
-            {
-                // Output value from the control module is above the selector threshold;
-                // return the output value from the first source module.
-                return SourceModules[0].GetValue(x, y, z);
-            }
-        }
-        else
+
+        if (EdgeFalloff <= 0.0)
         {
             if (controlValue < LowerBound || controlValue > UpperBound)
                 return SourceModules[0].GetValue(x, y, z);
             else
                 return SourceModules[1].GetValue(x, y, z);
+        }
+
+        if (controlValue < (LowerBound - EdgeFalloff))
+        {
+            // The output value from the control module is below the selector
+            // threshold; return the output value from the first source module.
+            return SourceModules[0].GetValue(x, y, z);
+        }
+        else if (controlValue < (LowerBound + EdgeFalloff))
+        {
+            // The output value from the control module is near the lower end of the
+            // selector threshold and within the smooth curve. Interpolate between
+            // the output values from the first and second source modules.
+            double lowerCurve = (LowerBound - EdgeFalloff);
+            double upperCurve = (LowerBound + EdgeFalloff);
+            double alpha = NoiseMath.SCurve3((controlValue - lowerCurve) / (upperCurve - lowerCurve));
+            return NoiseMath.Linear(
+                SourceModules[0].GetValue(x, y, z),
+                SourceModules[1].GetValue(x, y, z),
+                alpha);
+        }
+        else if (controlValue < (UpperBound - EdgeFalloff))
+        {
+            // The output value from the control module is within the selector
+            // threshold; return the output value from the second source module.
+            return SourceModules[1].GetValue(x, y, z);
+        }
+        else if (controlValue < (UpperBound + EdgeFalloff))
+        {
+            // The output value from the control module is near the upper end of the
+            // selector threshold and within the smooth curve. Interpolate between
+            // the output values from the first and second source modules.
+            double lowerCurve = (UpperBound - EdgeFalloff);
+            double upperCurve = (UpperBound + EdgeFalloff);
+            double alpha = NoiseMath.SCurve3((controlValue - lowerCurve) / (upperCurve - lowerCurve));
+            return NoiseMath.Linear(
+                SourceModules[1].GetValue(x, y, z),
+                SourceModules[0].GetValue(x, y, z),
+                alpha);
+        }
+        else
+        {
+            // Output value from the control module is above the selector threshold;
+            // return the output value from the first source module.
+            return SourceModules[0].GetValue(x, y, z);
         }
     }
 }

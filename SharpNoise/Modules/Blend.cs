@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharpNoise.Modules;
+﻿namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that outputs a weighted blend of the output values from
@@ -45,7 +43,6 @@ namespace SharpNoise.Modules;
 ///
 /// This noise module requires three source modules.
 /// </remarks>
-[Serializable]
 public class Blend : Module
 {
     /// <summary>
@@ -53,8 +50,8 @@ public class Blend : Module
     /// </summary>
     public Module Source0
     {
-        get { return SourceModules[0]; }
-        set { SourceModules[0] = value; }
+        get => SourceModules[0];
+        set => SourceModules[0] = value;
     }
 
     /// <summary>
@@ -62,8 +59,8 @@ public class Blend : Module
     /// </summary>
     public Module Source1
     {
-        get { return SourceModules[1]; }
-        set { SourceModules[1] = value; }
+        get => SourceModules[1];
+        set => SourceModules[1] = value;
     }
 
     /// <summary>
@@ -71,15 +68,14 @@ public class Blend : Module
     /// </summary>
     public Module Control
     {
-        get { return SourceModules[2]; }
-        set { SourceModules[2] = value; }
+        get => SourceModules[2];
+        set => SourceModules[2] = value;
     }
 
     /// <summary>
     /// Constructor.
     /// </summary>
-    public Blend()
-        : base(3)
+    public Blend() : base(3)
     {
 
     }

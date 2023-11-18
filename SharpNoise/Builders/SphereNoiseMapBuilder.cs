@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-using SharpNoise.Models;
+﻿using SharpNoise.Models;
 
 namespace SharpNoise.Builders;
 
@@ -78,8 +74,8 @@ public class SphereNoiseMapBuilder : NoiseMapBuilder
             NorthLatBound <= SouthLatBound ||
             destWidth <= 0 ||
             destHeight <= 0 ||
-            SourceModule == null ||
-            DestNoiseMap == null)
+            SourceModule is null ||
+            DestNoiseMap is null)
             throw new InvalidOperationException("Builder isn't properly set up.");
 
         DestNoiseMap.SetSize(destHeight, destWidth);
@@ -87,7 +83,7 @@ public class SphereNoiseMapBuilder : NoiseMapBuilder
 
     protected override void BuildImpl(CancellationToken cancellationToken)
     {
-        Sphere sphereModel = new Sphere(SourceModule);
+        var sphereModel = new Sphere(SourceModule);
 
         var lonExtent = EastLonBound - WestLonBound;
         var latExtent = NorthLatBound - SouthLatBound;

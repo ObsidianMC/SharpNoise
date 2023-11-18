@@ -12,7 +12,7 @@ namespace SharpNoise.Tests.Modules;
 /// </summary>
 public class CacheTests
 {
-    class CounterModule : Module
+    private class CounterModule : Module
     {
         public double Counter { get; private set; }
 
@@ -27,7 +27,7 @@ public class CacheTests
         }
     }
 
-    class ThreadIdModule : Module
+    private class ThreadIdModule : Module
     {
         public ThreadIdModule()
             : base(0)

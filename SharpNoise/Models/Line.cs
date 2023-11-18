@@ -28,10 +28,10 @@ public class Line : Model
     public bool Attenuate { get; set; }
 
     // start point
-    double x0, y0, z0;
+    private double x0, y0, z0;
 
     // end point
-    double x1, y1, z1;
+    private double x1, y1, z1;
 
     /// <summary>
     /// Constructor.

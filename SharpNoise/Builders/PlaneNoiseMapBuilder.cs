@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-using SharpNoise.Models;
+﻿using SharpNoise.Models;
 
 namespace SharpNoise.Builders;
 
@@ -83,8 +79,8 @@ public class PlaneNoiseMapBuilder : NoiseMapBuilder
             LowerZBound >= UpperZBound ||
             destWidth <= 0 ||
             destHeight <= 0 ||
-            SourceModule == null ||
-            DestNoiseMap == null)
+            SourceModule is null ||
+            DestNoiseMap is null)
             throw new InvalidOperationException("Builder isn't properly set up.");
 
         DestNoiseMap.SetSize(destHeight, destWidth);
@@ -92,7 +88,7 @@ public class PlaneNoiseMapBuilder : NoiseMapBuilder
 
     protected override void BuildImpl(CancellationToken cancellationToken)
     {
-        Plane planeModel = new Plane(SourceModule);
+        var planeModel = new Plane(SourceModule);
 
         var xExtent = UpperXBound - LowerXBound;
         var zExtent = UpperZBound - LowerZBound;

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharpNoise.Modules;
+﻿namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that outputs the absolute value of the output value from
@@ -9,7 +7,6 @@ namespace SharpNoise.Modules;
 /// <remarks>
 /// This noise module requires one source module.
 /// </remarks>
-[Serializable]
 public class Abs : Module
 {
     /// <summary>
@@ -17,15 +14,14 @@ public class Abs : Module
     /// </summary>
     public Module Source0
     {
-        get { return SourceModules[0]; }
-        set { SourceModules[0] = value; }
+        get => SourceModules[0];
+        set => SourceModules[0] = value;
     }
 
     /// <summary>
     /// Constructor
     /// </summary>
-    public Abs()
-        : base(1)
+    public Abs() : base(1)
     {
 
     }

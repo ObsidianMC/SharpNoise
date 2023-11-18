@@ -5,7 +5,11 @@
 - Upgrade projects to .NET 8
 - Update NuGet packages
 - Remove obsolete BinaryFormatter usage
+- Add .editorconfig and update formatting in all code files
+- Change syntax to adhere to modern standards
 - Add notice to README
+
+Note: no semantic changes were done in this version, only refactoring
 
 ## 0.12.1.1
 

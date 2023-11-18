@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharpNoise.Modules;
+﻿namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that applies a scaling factor and a bias to the output
@@ -13,7 +11,6 @@ namespace SharpNoise.Modules;
 ///
 /// This noise module requires one source module.
 /// </remarks>
-[Serializable]
 public class ScaleBias : Module
 {
     /// <summary>
@@ -31,8 +28,8 @@ public class ScaleBias : Module
     /// </summary>
     public Module Source0
     {
-        get { return SourceModules[0]; }
-        set { SourceModules[0] = value; }
+        get => SourceModules[0];
+        set => SourceModules[0] = value;
     }
 
     /// <summary>
@@ -60,8 +57,7 @@ public class ScaleBias : Module
     /// <summary>
     /// Constructor.
     /// </summary>
-    public ScaleBias()
-        : base(1)
+    public ScaleBias() : base(1)
     {
     }
 

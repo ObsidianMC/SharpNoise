@@ -1,10 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-using SharpNoise.Modules;
-
-namespace SharpNoise.Builders;
+﻿namespace SharpNoise.Builders;
 
 /// <summary>
 /// Builds a linear noise cube.
@@ -63,7 +57,7 @@ public class LinearNoiseCubeBuilder : NoiseCubeBuilder
     {
         if (LowerXBound >= UpperXBound || LowerYBound >= UpperYBound || LowerZBound >= UpperZBound ||
             destWidth <= 0 || destHeight <= 0 || destDepth <= 0 ||
-            SourceModule == null || DestNoiseCube == null)
+            SourceModule is null || DestNoiseCube is null)
             throw new InvalidOperationException("Builder isn't properly set up.");
 
         DestNoiseCube.SetSize(destWidth, destHeight, destDepth);

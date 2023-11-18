@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharpNoise.Modules;
+﻿namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that randomly displaces the input value before
@@ -97,7 +95,6 @@ namespace SharpNoise.Modules;
 /// 
 /// This noise module requires one source module.
 /// </remarks>
-[Serializable]
 public class Turbulence : Module
 {
     /// <summary>
@@ -125,8 +122,8 @@ public class Turbulence : Module
     /// </summary>
     public Module Source0
     {
-        get { return SourceModules[0]; }
-        set { SourceModules[0] = value; }
+        get => SourceModules[0];
+        set => SourceModules[0] = value;
     }
 
     /// <summary>
@@ -147,10 +144,7 @@ public class Turbulence : Module
     /// </remarks>
     public double Frequency
     {
-        get
-        {
-            return xDistort.Frequency;
-        }
+        get => xDistort.Frequency;
         set
         {
             xDistort.Frequency = value;
@@ -168,12 +162,9 @@ public class Turbulence : Module
     /// the displacement amount.  High values roughly change the
     /// displacement amount, which produces more "kinky" changes.
     /// </remarks>
-    public int Roughness 
+    public int Roughness
     {
-        get 
-        { 
-            return xDistort.OctaveCount;
-        }
+        get => xDistort.OctaveCount;
         set
         {
             xDistort.OctaveCount = value;
@@ -193,10 +184,7 @@ public class Turbulence : Module
     /// </remarks>
     public int Seed
     {
-        get
-        {
-            return xDistort.Seed;
-        }
+        get => xDistort.Seed;
         set
         {
             xDistort.Seed = value;
@@ -205,13 +193,12 @@ public class Turbulence : Module
         }
     }
 
-    readonly Perlin xDistort, yDistort, zDistort;
+    private readonly Perlin xDistort, yDistort, zDistort;
 
     /// <summary>
     /// Constructor.
     /// </summary>
-    public Turbulence()
-        : base(1)
+    public Turbulence() : base(1)
     {
         xDistort = new Perlin();
         yDistort = new Perlin();

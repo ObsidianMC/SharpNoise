@@ -9,7 +9,7 @@ namespace SharpNoise.Tests;
 /// </summary>
 public class MapTests
 {
-    readonly NoiseMap map;
+    private readonly NoiseMap map;
 
     public MapTests()
     {

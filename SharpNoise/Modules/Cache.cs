@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.Serialization;
-using System.Threading;
+﻿using System.Runtime.Serialization;
 
 namespace SharpNoise.Modules;
 
@@ -30,10 +28,9 @@ namespace SharpNoise.Modules;
 ///
 /// This noise module requires one source module.
 /// </remarks>
-[Serializable]
 public class Cache : Module, IDeserializationCallback, IDisposable
 {
-    class CacheEntry
+    private class CacheEntry
     {
         public double x;
         public double y;
@@ -44,22 +41,21 @@ public class Cache : Module, IDeserializationCallback, IDisposable
     private bool disposedValue = false;
 
     [NonSerialized]
-    ThreadLocal<CacheEntry> localCacheEntry = new ThreadLocal<CacheEntry>();
+    private ThreadLocal<CacheEntry> localCacheEntry = new();
 
     /// <summary>
     /// Gets or sets the first source module
     /// </summary>
     public Module Source0
     {
-        get { return SourceModules[0]; }
-        set { SourceModules[0] = value; }
+        get => SourceModules[0];
+        set => SourceModules[0] = value;
     }
 
     /// <summary>
     /// Constructor.
     /// </summary>
-    public Cache()
-        : base(1)
+    public Cache() : base(1)
     {
     }
 
@@ -88,7 +84,7 @@ public class Cache : Module, IDeserializationCallback, IDisposable
     {
         CacheEntry cached = localCacheEntry.Value;
 
-        if (cached != null)
+        if (cached is not null)
         {
             if (cached.x == x && cached.y == y && cached.z == z)
                 return cached.value;
@@ -120,17 +116,18 @@ public class Cache : Module, IDeserializationCallback, IDisposable
 
     protected virtual void Dispose(bool disposing)
     {
-        if (!disposedValue)
+        if (disposedValue)
         {
-            if (disposing)
-            {
-                // TODO: dispose managed state (managed objects).
-            }
-
-            localCacheEntry?.Dispose();
-
-            disposedValue = true;
+            return;
         }
+
+        if (disposing)
+        {
+            // TODO: dispose managed state (managed objects).
+        }
+
+        localCacheEntry?.Dispose();
+        disposedValue = true;
     }
 
     public void Dispose()
