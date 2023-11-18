@@ -1,4 +1,10 @@
-# SharpNoise
+# SharpNoise — Obsidian fork
+
+## :warning: Notice :warning:
+
+This is a custom fork with changes specific to Obsidian. Current stage of development is experimental. See LICENSE for original license and CHANGELOG for list of changes.
+
+---
 
 A library for generating coherent noise. It can be used to procedurally create natural-looking textures (such as wood, stone, or clouds), terrain heightmaps, normal maps, and a lot more.
 

@@ -1,5 +1,12 @@
 # SharpNoise Changelog
 
+## 0.13.0
+
+- Upgrade projects to .NET 8
+- Update NuGet packages
+- Remove obsolete BinaryFormatter usage
+- Add notice to README
+
 ## 0.12.1.1
 
 - Generate xml doc files on build and include them in NuGet packages

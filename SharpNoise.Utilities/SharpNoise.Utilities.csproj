@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.12.1.1</Version>
+    <TargetFramework>net8.0</TargetFramework>
+    <Version>0.13.0</Version>
     <Authors>Raffael Thome</Authors>
     <Company>Raffael Thome</Company>
     <Product>SharpNoise</Product>
@@ -17,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
