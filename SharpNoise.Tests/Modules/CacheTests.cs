@@ -9,7 +9,7 @@ using Xunit;
 namespace SharpNoise.Tests.Modules;
 
 /// <summary>
-/// Tests for the <see cref="Cache"/> module
+/// Tests for the <see cref="ThreadCache"/> module
 /// </summary>
 public class CacheTests
 {
@@ -47,7 +47,7 @@ public class CacheTests
     public void TestGetValueCalledOnce(double x, double y, double z)
     {
         var testModule = new CounterModule();
-        var cache = new Cache { Source0 = testModule };
+        var cache = new ThreadCache { Source0 = testModule };
 
         var cachedValue = cache.GetValue(x, y, z);
 
@@ -63,7 +63,7 @@ public class CacheTests
     public void TestMultithreaded(int threadCount)
     {
         var source = new ThreadIdModule();
-        var cache = new Cache { Source0 = source };
+        var cache = new ThreadCache { Source0 = source };
 
         var threadArray = new Thread[threadCount];
 

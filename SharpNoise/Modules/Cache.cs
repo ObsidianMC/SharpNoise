@@ -1,5 +1,4 @@
 ﻿using SharpNoise.Modules.Buffers;
-using System.Runtime.Serialization;
 
 namespace SharpNoise.Modules;
 
@@ -19,9 +18,6 @@ namespace SharpNoise.Modules;
 /// module returns the cached output value without having the source
 /// module recalculate the output value.
 ///
-/// If a source module changes, the cache must be invalidated 
-/// by calling  <see cref="ResetCache"/>.
-///
 /// Caching a noise module is useful if it is used as a source module for
 /// multiple noise modules.  If a source module is not cached, the source
 /// module will redundantly calculate the same output value once for each
@@ -29,22 +25,20 @@ namespace SharpNoise.Modules;
 ///
 /// This noise module requires one source module.
 /// </remarks>
-public class Cache : Module, IDeserializationCallback, IDisposable
+public sealed class Cache : Module
 {
     public override ReadOnlySpan<Module> SourceModules => buffer;
     private OneModuleBuffer buffer = new();
 
-    private class CacheEntry
+    private readonly struct CacheEntry(double x, double y, double z, double value)
     {
-        public double x;
-        public double y;
-        public double z;
-        public double value;
+        public readonly double x = x;
+        public readonly double y = y;
+        public readonly double z = z;
+        public readonly double value = value;
     }
 
-    private bool disposedValue = false;
-
-    private ThreadLocal<CacheEntry> localCacheEntry = new();
+    private CacheEntry cache = new(double.NaN, double.NaN, double.NaN, double.NaN);
 
     /// <summary>
     /// Gets or sets the first source module
@@ -53,19 +47,6 @@ public class Cache : Module, IDeserializationCallback, IDisposable
     {
         get => buffer[0];
         set => buffer[0] = value;
-    }
-
-    /// <summary>
-    /// Reset cached value
-    /// </summary>
-    /// <remarks>
-    /// Resets the cache for all threads
-    /// </remarks>
-    public void ResetCache()
-    {
-        var oldCacheEntry = localCacheEntry;
-        localCacheEntry = new ThreadLocal<CacheEntry>();
-        oldCacheEntry?.Dispose();
     }
 
     /// <summary>
@@ -78,58 +59,11 @@ public class Cache : Module, IDeserializationCallback, IDisposable
     /// <returns>Returns the computed value</returns>
     public override double GetValue(double x, double y, double z)
     {
-        CacheEntry cached = localCacheEntry.Value;
+        if (cache.x == x && cache.y == y && cache.z == z)
+            return cache.value;
 
-        if (cached is not null)
-        {
-            if (cached.x == x && cached.y == y && cached.z == z)
-                return cached.value;
-        }
-        else
-        {
-            localCacheEntry.Value = cached = new CacheEntry();
-        }
-
-        cached.value = buffer[0].GetValue(x, y, z);
-        cached.x = x;
-        cached.y = y;
-        cached.z = z;
-
-        return cached.value;
+        double value = buffer[0].GetValue(x, y, z);
+        cache = new CacheEntry(x, y, z, value);
+        return value;
     }
-
-    /// <summary>
-    /// Callback for .NET serialization to perform additional initialization after an object has been reconstructed
-    /// </summary>
-    /// <param name="sender">The sender object</param>
-    /// <seealso cref="IDeserializationCallback"/>
-    public virtual void OnDeserialization(object sender)
-    {
-        ResetCache();
-    }
-
-    #region IDisposable Support
-
-    protected virtual void Dispose(bool disposing)
-    {
-        if (disposedValue)
-        {
-            return;
-        }
-
-        if (disposing)
-        {
-            // TODO: dispose managed state (managed objects).
-        }
-
-        localCacheEntry?.Dispose();
-        disposedValue = true;
-    }
-
-    public void Dispose()
-    {
-        Dispose(true);
-    }
-
-    #endregion
 }

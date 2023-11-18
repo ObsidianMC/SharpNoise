@@ -1,5 +1,9 @@
 # SharpNoise Changelog
 
+## 0.13.3
+
+- Make cache not thread-shared (move this behaviour to new class ThreadCache)
+
 ## 0.13.2
 
 - Remove quality settings (Fast is the only option now)
