@@ -1,9 +1,8 @@
-﻿namespace SharpNoise.Tests.Modules
+﻿namespace SharpNoise.Tests.Modules;
+
+/// <summary>
+/// Tests for the <see cref="Checkerboard"/> module
+/// </summary>
+public class CheckerboardTests
 {
-    /// <summary>
-    /// Tests for the <see cref="Checkerboard"/> module
-    /// </summary>
-    public class CheckerboardTests
-    {
-    }
 }

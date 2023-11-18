@@ -1,9 +1,8 @@
-﻿namespace SharpNoise.Tests.Modules
+﻿namespace SharpNoise.Tests.Modules;
+
+/// <summary>
+/// Tests for the <see cref="Cylinders"/> module
+/// </summary>
+public class CylindersTests
 {
-    /// <summary>
-    /// Tests for the <see cref="Cylinders"/> module
-    /// </summary>
-    public class CylindersTests
-    {
-    }
 }

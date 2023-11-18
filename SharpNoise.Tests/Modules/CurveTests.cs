@@ -1,9 +1,8 @@
-﻿namespace SharpNoise.Tests.Modules
+﻿namespace SharpNoise.Tests.Modules;
+
+/// <summary>
+/// Tests for the <see cref="Curve"/> module
+/// </summary>
+public class CurveTests
 {
-    /// <summary>
-    /// Tests for the <see cref="Curve"/> module
-    /// </summary>
-    public class CurveTests
-    {
-    }
 }
