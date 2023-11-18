@@ -39,11 +39,6 @@ public class Billow : Module
     public const double DefaultPersistence = 0.5D;
 
     /// <summary>
-    /// Default noise quality
-    /// </summary>
-    public const NoiseQuality DefaultQuality = NoiseQuality.Standard;
-
-    /// <summary>
     /// Default noise seed
     /// </summary>
     public const int DefaultSeed = 0;
@@ -63,15 +58,6 @@ public class Billow : Module
     /// octaves.
     /// </remarks>
     public double Lacunarity { get; set; } = DefaultLacunarity;
-
-    /// <summary>
-    /// Gets or sets the quality of the billowy noise.
-    /// </summary>
-    /// <remarks>
-    /// See <see cref="NoiseQuality"/> for definitions of the various
-    /// coherent-noise qualities.
-    /// </remarks>
-    public NoiseQuality Quality { get; set; } = DefaultQuality;
 
     /// <summary>
     /// Gets or sets the number of octaves that generate the billowy noise.
@@ -116,7 +102,7 @@ public class Billow : Module
         {
             // Get the coherent-noise value from the input value and add it to the final result.
             var seed = (Seed + currentOctave) & int.MaxValue;
-            var signal = NoiseGenerator.GradientCoherentNoise3D(x, y, z, seed, Quality);
+            var signal = NoiseGenerator.GradientCoherentNoise3D(x, y, z, seed);
             signal = 2.0 * Math.Abs(signal) - 1.0;
             value += signal * currentPersistence;
 

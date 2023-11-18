@@ -85,11 +85,6 @@ public class RidgedMulti : Module
     public const int DefaultOctaveCount = 6;
 
     /// <summary>
-    /// Default noise quality
-    /// </summary>
-    public const NoiseQuality DefaultQuality = NoiseQuality.Standard;
-
-    /// <summary>
     /// Default noise seed
     /// </summary>
     public const int DefaultSeed = 0;
@@ -123,11 +118,6 @@ public class RidgedMulti : Module
             CalcSpectralWeights();
         }
     }
-
-    /// <summary>
-    /// Gets or sets the quality of the ridged-multifractal noise.
-    /// </summary>
-    public NoiseQuality Quality { get; set; } = DefaultQuality;
 
     /// <summary>
     /// Gets or sets the number of octaves that generate the
@@ -208,7 +198,7 @@ public class RidgedMulti : Module
         {
             // Get the coherent-noise value.
             var seed = (Seed + curOctave) & 0x7fffffff;
-            var signal = NoiseGenerator.GradientCoherentNoise3D(x, y, z, seed, Quality);
+            var signal = NoiseGenerator.GradientCoherentNoise3D(x, y, z, seed);
 
             // Make the ridges.
             signal = offset - Math.Abs(signal);

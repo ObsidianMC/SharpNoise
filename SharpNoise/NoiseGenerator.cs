@@ -374,7 +374,7 @@ public static class NoiseGenerator
     /// For an explanation of the difference between gradient noise and
     /// value noise, see the comments for the <see cref="GradientNoise3D"/> function.
     /// </remarks>
-    public static double GradientCoherentNoise3D(double x, double y, double z, int seed = 0, NoiseQuality noiseQuality = NoiseQuality.Standard)
+    public static double GradientCoherentNoise3D(double x, double y, double z, int seed = 0)
     {
         // Create a unit-length cube aligned along an integer boundary.  This cube
         // surrounds the input point.
@@ -387,13 +387,9 @@ public static class NoiseGenerator
 
         // Map the difference between the coordinates of the input value and the
         // coordinates of the cube's outer-lower-left vertex onto an S-curve.
-        (double xs, double ys, double zs) = noiseQuality switch
-        {
-            NoiseQuality.Fast => (x - x0, y - y0, z - z0),
-            NoiseQuality.Standard => (NoiseMath.SCurve3(x - x0), NoiseMath.SCurve3(y - y0), NoiseMath.SCurve3(z - z0)),
-            NoiseQuality.Best => (NoiseMath.SCurve5(x - x0), NoiseMath.SCurve5(y - y0), NoiseMath.SCurve5(z - z0)),
-            _ => (0, 0, 0)
-        };
+        double xs = x - x0;
+        double ys = y - y0;
+        double zs = z - z0;
 
         // Now calculate the noise values at each vertex of the cube.  To generate
         // the coherent-noise value at the input point, interpolate these eight
@@ -541,7 +537,7 @@ public static class NoiseGenerator
     /// For an explanation of the difference between gradient noise and
     /// value noise, see the comments for the <see cref="GradientNoise3D"/> function.
     /// </remarks>
-    public static double ValueCoherentNoise3D(double x, double y, double z, int seed = 0, NoiseQuality noiseQuality = NoiseQuality.Standard)
+    public static double ValueCoherentNoise3D(double x, double y, double z, int seed = 0)
     {
         // Create a unit-length cube aligned along an integer boundary.  This cube
         // surrounds the input point.
@@ -554,13 +550,9 @@ public static class NoiseGenerator
 
         // Map the difference between the coordinates of the input value and the
         // coordinates of the cube's outer-lower-left vertex onto an S-curve.
-        (double xs, double ys, double zs) = noiseQuality switch
-        {
-            NoiseQuality.Fast => (x - x0, y - y0, z - z0),
-            NoiseQuality.Standard => (NoiseMath.SCurve3(x - x0), NoiseMath.SCurve3(y - y0), NoiseMath.SCurve3(z - z0)),
-            NoiseQuality.Best => (NoiseMath.SCurve5(x - x0), NoiseMath.SCurve5(y - y0), NoiseMath.SCurve5(z - z0)),
-            _ => (0, 0, 0)
-        };
+        double xs = x - x0;
+        double ys = y - y0;
+        double zs = z - z0;
 
         // Now calculate the noise values at each vertex of the cube.  To generate
         // the coherent-noise value at the input point, interpolate these eight

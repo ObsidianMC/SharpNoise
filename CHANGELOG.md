@@ -1,5 +1,9 @@
 # SharpNoise Changelog
 
+## 0.13.2
+
+- Remove quality settings (Fast is the only option now)
+
 ## 0.13.1
 
 - Use inline-array buffers instead of arrays in modules

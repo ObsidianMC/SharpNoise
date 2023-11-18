@@ -134,11 +134,6 @@ public class Perlin : Module
     public const double DefaultPersistence = 0.5D;
 
     /// <summary>
-    /// Default noise quality for the Perlin noise module.
-    /// </summary>
-    public const NoiseQuality DefaultQuality = NoiseQuality.Standard;
-
-    /// <summary>
     /// Default noise seed for the Perlin noise module.
     /// </summary>
     public const int DefaultSeed = 0;
@@ -184,11 +179,6 @@ public class Perlin : Module
     public double Persistence { get; set; } = DefaultPersistence;
 
     /// <summary>
-    /// Gets or sets the quality of the Perlin noise.
-    /// </summary>
-    public NoiseQuality Quality { get; set; } = DefaultQuality;
-
-    /// <summary>
     /// Gets or sets the seed value used by the Perlin-noise function.
     /// </summary>
     public int Seed { get; set; } = DefaultSeed;
@@ -213,7 +203,7 @@ public class Perlin : Module
         for (var currentOctave = 0; currentOctave < OctaveCount; currentOctave++)
         {
             var seed = (Seed + currentOctave) & int.MaxValue;
-            var signal = NoiseGenerator.GradientCoherentNoise3D(x, y, z, seed, Quality);
+            var signal = NoiseGenerator.GradientCoherentNoise3D(x, y, z, seed);
             value += signal * currentPersistence;
 
             x *= Lacunarity;
