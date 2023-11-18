@@ -237,12 +237,12 @@ public sealed class NoiseCube
 
                     if (clamp)
                     {
-                        x0 = NoiseMath.Clamp(x0, 0, src.Width - 1);
-                        x1 = NoiseMath.Clamp(x1, 0, src.Width - 1);
-                        y0 = NoiseMath.Clamp(y0, 0, src.Height - 1);
-                        y1 = NoiseMath.Clamp(y1, 0, src.Height - 1);
-                        z0 = NoiseMath.Clamp(z0, 0, src.Depth - 1);
-                        z1 = NoiseMath.Clamp(z1, 0, src.Depth - 1);
+                        x0 = Math.Clamp(x0, 0, src.Width - 1);
+                        x1 = Math.Clamp(x1, 0, src.Width - 1);
+                        y0 = Math.Clamp(y0, 0, src.Height - 1);
+                        y1 = Math.Clamp(y1, 0, src.Height - 1);
+                        z0 = Math.Clamp(z0, 0, src.Depth - 1);
+                        z1 = Math.Clamp(z1, 0, src.Depth - 1);
                     }
 
                     float c000 = src.GetValue(x0, y0, z0);

@@ -48,8 +48,6 @@
 /// </remarks>
 public class Cell : Module
 {
-    public override ReadOnlySpan<Module> SourceModules => [];
-
     public enum CellType
     {
         Voronoi,

@@ -563,9 +563,9 @@ public class ImageRenderer
         }
 
         // Clamp the color channels to the (0..1) range.
-        red = NoiseMath.Clamp(red, 0, 1);
-        green = NoiseMath.Clamp(green, 0, 1);
-        blue = NoiseMath.Clamp(blue, 0, 1);
+        red = Math.Clamp(red, 0, 1);
+        green = Math.Clamp(green, 0, 1);
+        blue = Math.Clamp(blue, 0, 1);
 
         // Rescale the color channels to the (0..255) range and return
         // the new color.

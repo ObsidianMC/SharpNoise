@@ -194,10 +194,10 @@ public class Curve : Module
 
         // Find the four nearest control points so that we can perform cubic
         // interpolation.
-        var index0 = NoiseMath.Clamp(indexPos - 2, 0, controlPoints.Count - 1);
-        var index1 = NoiseMath.Clamp(indexPos - 1, 0, controlPoints.Count - 1);
-        var index2 = NoiseMath.Clamp(indexPos, 0, controlPoints.Count - 1);
-        var index3 = NoiseMath.Clamp(indexPos + 1, 0, controlPoints.Count - 1);
+        var index0 = Math.Clamp(indexPos - 2, 0, controlPoints.Count - 1);
+        var index1 = Math.Clamp(indexPos - 1, 0, controlPoints.Count - 1);
+        var index2 = Math.Clamp(indexPos, 0, controlPoints.Count - 1);
+        var index3 = Math.Clamp(indexPos + 1, 0, controlPoints.Count - 1);
 
         // If some control points are missing (which occurs if the value from the
         // source module is greater than the largest input value or less than the

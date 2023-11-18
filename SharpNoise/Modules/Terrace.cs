@@ -157,8 +157,8 @@ public class Terrace : Module
 
         // Find the two nearest control points so that we can map their values
         // onto a quadratic curve.
-        var index0 = NoiseMath.Clamp(indexPos - 1, 0, ControlPointCount - 1);
-        var index1 = NoiseMath.Clamp(indexPos, 0, ControlPointCount - 1);
+        var index0 = Math.Clamp(indexPos - 1, 0, ControlPointCount - 1);
+        var index1 = Math.Clamp(indexPos, 0, ControlPointCount - 1);
 
         // If some control points are missing (which occurs if the output value from
         // the source module is greater than the largest value or less than the
@@ -174,7 +174,7 @@ public class Terrace : Module
         if (InvertTerraces)
         {
             alpha = 1.0 - alpha;
-            NoiseMath.Swap(ref value0, ref value1);
+            (value0, value1) = (value1, value0);
         }
 
         // Squaring the alpha produces the terrace effect.

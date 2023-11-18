@@ -1,5 +1,10 @@
 # SharpNoise Changelog
 
+## 0.13.4
+
+- Remove unused math functions SCurve5, Clamp and Swap
+- Simplify modules without children
+
 ## 0.13.3
 
 - Make cache not thread-shared (move this behaviour to new class ThreadCache)

@@ -15,8 +15,6 @@
 /// </remarks>
 public class Billow : Module
 {
-    public override ReadOnlySpan<Module> SourceModules => [];
-
     #region Defaults
     /// <summary>
     /// Default frequency

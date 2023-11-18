@@ -8,26 +8,6 @@ namespace SharpNoise.Tests;
 public class NoiseMathTests
 {
     [Theory]
-    [InlineData(10.0)]
-    [InlineData(-10.0)]
-    public void ClampOutOfRangeTest(double data)
-    {
-        Assert.NotInRange(data, -1.0, 1.0);
-        Assert.InRange(NoiseMath.Clamp(data, -1.0, 1.0), -1.0, 1.0);
-    }
-
-    [Theory]
-    [InlineData(1.0)]
-    [InlineData(-1.0)]
-    [InlineData(0.0)]
-    [InlineData(0.5)]
-    public void ClampInRangeTest(double data)
-    {
-        Assert.InRange(data, -1.0, 1.0);
-        Assert.Equal(data, NoiseMath.Clamp(data, -1.0, 1.0));
-    }
-
-    [Theory]
     [InlineData(0.5)]
     [InlineData(0.0)]
     [InlineData(0.1)]
@@ -62,16 +42,5 @@ public class NoiseMathTests
     public void SCurve3Test(double a, double expected)
     {
         Assert.Equal(expected, NoiseMath.SCurve3(a), 6);
-    }
-
-    [Theory]
-    [InlineData(0.0, 0.0)]
-    [InlineData(1.0, 1.0)]
-    [InlineData(0.5, 0.5)]
-    [InlineData(0.333, 0.209383)]
-    [InlineData(0.9, 0.99144)]
-    public void SCurve5Test(double a, double expected)
-    {
-        Assert.Equal(expected, NoiseMath.SCurve5(a), 6);
     }
 }

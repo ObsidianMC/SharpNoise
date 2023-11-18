@@ -267,7 +267,7 @@ public abstract class Module
     /// </summary>
     public int SourceModuleCount => SourceModules.Length;
 
-    public abstract ReadOnlySpan<Module> SourceModules { get; }
+    public virtual ReadOnlySpan<Module> SourceModules => [];
 
     /// <summary>
     /// Generates an output value given the coordinates of the specified

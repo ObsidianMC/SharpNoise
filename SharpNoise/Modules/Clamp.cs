@@ -109,6 +109,6 @@ public class Clamp : Module
     /// <returns>Returns the computed value</returns>
     public override double GetValue(double x, double y, double z)
     {
-        return NoiseMath.Clamp(buffer[0].GetValue(x, y, z), LowerBound, UpperBound);
+        return Math.Clamp(buffer[0].GetValue(x, y, z), lowerBound, upperBound);
     }
 }

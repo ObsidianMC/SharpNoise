@@ -159,8 +159,8 @@ public class GradientColor
 
         // Find the two nearest gradient points so that we can perform linear
         // interpolation on the color.
-        var index0 = NoiseMath.Clamp(indexPos - 1, 0, gradientPoints.Count - 1);
-        var index1 = NoiseMath.Clamp(indexPos, 0, gradientPoints.Count - 1);
+        var index0 = Math.Clamp(indexPos - 1, 0, gradientPoints.Count - 1);
+        var index1 = Math.Clamp(indexPos, 0, gradientPoints.Count - 1);
 
         // If some gradient points are missing (which occurs if the gradient
         // position passed to this method is greater than the largest gradient

@@ -14,8 +14,6 @@ namespace SharpNoise.Modules;
 /// </remarks>
 public class Constant : Module
 {
-    public override ReadOnlySpan<Module> SourceModules => [];
-
     /// <summary>
     /// The default constant value of the Constant module
     /// </summary>

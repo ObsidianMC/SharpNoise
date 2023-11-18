@@ -111,8 +111,6 @@ namespace SharpNoise.Modules;
 /// </remarks>
 public class Perlin : Module
 {
-    public override ReadOnlySpan<Module> SourceModules => [];
-
     /// <summary>
     /// Default frequency for the Perlin noise module.
     /// </summary>

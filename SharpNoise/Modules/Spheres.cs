@@ -27,8 +27,6 @@
 /// </remarks>
 public class Spheres : Module
 {
-    public override ReadOnlySpan<Module> SourceModules => [];
-
     /// <summary>
     /// Default frequency value
     /// </summary>

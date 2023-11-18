@@ -29,8 +29,6 @@
 /// </remarks>
 public class Cylinders : Module
 {
-    public override ReadOnlySpan<Module> SourceModules => [];
-
     /// <summary>
     /// Default frequency value
     /// </summary>

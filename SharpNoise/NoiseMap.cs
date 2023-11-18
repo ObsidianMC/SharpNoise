@@ -80,10 +80,10 @@ public class NoiseMap : Map<float>
 
                 if (clamp)
                 {
-                    x0 = NoiseMath.Clamp(x0, 0, src.Width - 1);
-                    x1 = NoiseMath.Clamp(x1, 0, src.Width - 1);
-                    y0 = NoiseMath.Clamp(y0, 0, src.Height - 1);
-                    y1 = NoiseMath.Clamp(y1, 0, src.Height - 1);
+                    x0 = Math.Clamp(x0, 0, src.Width - 1);
+                    x1 = Math.Clamp(x1, 0, src.Width - 1);
+                    y0 = Math.Clamp(y0, 0, src.Height - 1);
+                    y1 = Math.Clamp(y1, 0, src.Height - 1);
                 }
 
                 float c00 = src.GetValue(x0, y0);

@@ -15,8 +15,6 @@ namespace SharpNoise.Modules;
 /// </remarks>
 public class Checkerboard : Module
 {
-    public override ReadOnlySpan<Module> SourceModules => [];
-
     /// <summary>
     /// See the documentation on the base class.
     /// <seealso cref="Module"/>

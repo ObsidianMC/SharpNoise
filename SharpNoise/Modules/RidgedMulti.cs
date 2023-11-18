@@ -67,8 +67,6 @@
 /// </remarks>
 public class RidgedMulti : Module
 {
-    public override ReadOnlySpan<Module> SourceModules => [];
-
     /// <summary>
     /// Default frequency
     /// </summary>
