@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Version>0.13.1</Version>
+    <Version>0.13.3</Version>
     <Authors>Raffael Thome</Authors>
     <Company>Raffael Thome</Company>
     <Description>A library for generating coherent noise.</Description>
