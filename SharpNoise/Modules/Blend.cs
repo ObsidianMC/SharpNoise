@@ -1,4 +1,6 @@
-﻿namespace SharpNoise.Modules;
+﻿using SharpNoise.Modules.Buffers;
+
+namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that outputs a weighted blend of the output values from
@@ -45,13 +47,16 @@
 /// </remarks>
 public class Blend : Module
 {
+    public override ReadOnlySpan<Module> SourceModules => buffer;
+    private ThreeModulesBuffer buffer;
+
     /// <summary>
     /// Gets or sets the first source module
     /// </summary>
     public Module Source0
     {
-        get => SourceModules[0];
-        set => SourceModules[0] = value;
+        get => buffer[0];
+        set => buffer[0] = value;
     }
 
     /// <summary>
@@ -59,8 +64,8 @@ public class Blend : Module
     /// </summary>
     public Module Source1
     {
-        get => SourceModules[1];
-        set => SourceModules[1] = value;
+        get => buffer[1];
+        set => buffer[1] = value;
     }
 
     /// <summary>
@@ -68,16 +73,8 @@ public class Blend : Module
     /// </summary>
     public Module Control
     {
-        get => SourceModules[2];
-        set => SourceModules[2] = value;
-    }
-
-    /// <summary>
-    /// Constructor.
-    /// </summary>
-    public Blend() : base(3)
-    {
-
+        get => buffer[2];
+        set => buffer[2] = value;
     }
 
     /// <summary>
@@ -90,9 +87,9 @@ public class Blend : Module
     /// <returns>Returns the computed value</returns>
     public override double GetValue(double x, double y, double z)
     {
-        var v0 = SourceModules[0].GetValue(x, y, z);
-        var v1 = SourceModules[1].GetValue(x, y, z);
-        var alpha = (SourceModules[2].GetValue(x, y, z) + 1) / 2;
+        var v0 = buffer[0].GetValue(x, y, z);
+        var v1 = buffer[1].GetValue(x, y, z);
+        var alpha = (buffer[2].GetValue(x, y, z) + 1) / 2;
         return NoiseMath.Linear(v0, v1, alpha);
     }
 }

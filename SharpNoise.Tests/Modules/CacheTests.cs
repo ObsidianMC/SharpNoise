@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 
 using SharpNoise.Modules;
@@ -14,12 +15,9 @@ public class CacheTests
 {
     private class CounterModule : Module
     {
-        public double Counter { get; private set; }
+        public override ReadOnlySpan<Module> SourceModules => [];
 
-        public CounterModule()
-            : base(0)
-        {
-        }
+        public double Counter { get; private set; }
 
         public override double GetValue(double x, double y, double z)
         {
@@ -29,10 +27,7 @@ public class CacheTests
 
     private class ThreadIdModule : Module
     {
-        public ThreadIdModule()
-            : base(0)
-        {
-        }
+        public override ReadOnlySpan<Module> SourceModules => [];
 
         public override double GetValue(double x, double y, double z)
         {

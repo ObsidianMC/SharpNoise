@@ -1,4 +1,6 @@
-﻿namespace SharpNoise.Modules;
+﻿using SharpNoise.Modules.Buffers;
+
+namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that moves the coordinates of the input value before
@@ -17,6 +19,9 @@
 /// </remarks>
 public class TranslatePoint : Module
 {
+    public override ReadOnlySpan<Module> SourceModules => buffer;
+    private OneModuleBuffer buffer;
+
     /// <summary>
     /// Default translation amount
     /// </summary>
@@ -27,8 +32,8 @@ public class TranslatePoint : Module
     /// </summary>
     public Module Source0
     {
-        get => SourceModules[0];
-        set => SourceModules[0] = value;
+        get => buffer[0];
+        set => buffer[0] = value;
     }
 
     /// <summary>
@@ -48,13 +53,6 @@ public class TranslatePoint : Module
     /// the input value.
     /// </summary>
     public double ZTranslation { get; set; } = DefaultTranslation;
-
-    /// <summary>
-    /// Constructor.
-    /// </summary>
-    public TranslatePoint() : base(1)
-    {
-    }
 
     /// <summary>
     /// Sets the translation value to apply to the input value.
@@ -100,7 +98,7 @@ public class TranslatePoint : Module
     /// <returns>Returns the computed value</returns>
     public override double GetValue(double x, double y, double z)
     {
-        return SourceModules[0].GetValue(
+        return buffer[0].GetValue(
             x + XTranslation,
             y + YTranslation,
             z + ZTranslation);

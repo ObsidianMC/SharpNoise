@@ -1,4 +1,6 @@
-﻿namespace SharpNoise.Modules;
+﻿using SharpNoise.Modules.Buffers;
+
+namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that randomly displaces the input value before
@@ -97,6 +99,9 @@
 /// </remarks>
 public class Turbulence : Module
 {
+    public override ReadOnlySpan<Module> SourceModules => buffer;
+    private OneModuleBuffer buffer;
+
     /// <summary>
     /// Default frequency
     /// </summary>
@@ -122,8 +127,8 @@ public class Turbulence : Module
     /// </summary>
     public Module Source0
     {
-        get => SourceModules[0];
-        set => SourceModules[0] = value;
+        get => buffer[0];
+        set => buffer[0] = value;
     }
 
     /// <summary>
@@ -198,11 +203,9 @@ public class Turbulence : Module
     /// <summary>
     /// Constructor.
     /// </summary>
-    public Turbulence() : base(1)
+    public Turbulence()
     {
-        xDistort = new Perlin();
-        yDistort = new Perlin();
-        zDistort = new Perlin();
+        xDistort = yDistort = zDistort = new Perlin();
         Seed = DefaultSeed;
         Frequency = DefaultFrequency;
         Roughness = DefaultRoughness;
@@ -243,6 +246,6 @@ public class Turbulence : Module
 
         // Retrieve the output value at the offsetted input value instead of the
         // original input value.
-        return SourceModules[0].GetValue(xDistorted, yDistorted, zDistorted);
+        return buffer[0].GetValue(xDistorted, yDistorted, zDistorted);
     }
 }

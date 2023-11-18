@@ -1,4 +1,6 @@
-﻿namespace SharpNoise.Modules;
+﻿using SharpNoise.Modules.Buffers;
+
+namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that outputs the value selected from one of two source
@@ -47,6 +49,9 @@
 /// </remarks>
 public class Select : Module
 {
+    public override ReadOnlySpan<Module> SourceModules => buffer;
+    private ThreeModulesBuffer buffer;
+
     /// <summary>
     /// Default edge-falloff value
     /// </summary>
@@ -163,8 +168,8 @@ public class Select : Module
     /// </summary>
     public Module Source0
     {
-        get => SourceModules[0];
-        set => SourceModules[0] = value;
+        get => buffer[0];
+        set => buffer[0] = value;
     }
 
     /// <summary>
@@ -172,8 +177,8 @@ public class Select : Module
     /// </summary>
     public Module Source1
     {
-        get => SourceModules[1];
-        set => SourceModules[1] = value;
+        get => buffer[1];
+        set => buffer[1] = value;
     }
 
     /// <summary>
@@ -189,14 +194,14 @@ public class Select : Module
     /// </remarks>
     public Module Control
     {
-        get => SourceModules[2];
-        set => SourceModules[2] = value;
+        get => buffer[2];
+        set => buffer[2] = value;
     }
 
     /// <summary>
     /// Constructor.
     /// </summary>
-    public Select() : base(3)
+    public Select()
     {
         EdgeFalloff = DefaultEdgeFalloff;
         LowerBound = DefaultLowerBound;
@@ -236,21 +241,21 @@ public class Select : Module
     /// <returns>Returns the computed value</returns>
     public override double GetValue(double x, double y, double z)
     {
-        var controlValue = SourceModules[2].GetValue(x, y, z);
+        var controlValue = buffer[2].GetValue(x, y, z);
 
         if (EdgeFalloff <= 0.0)
         {
             if (controlValue < LowerBound || controlValue > UpperBound)
-                return SourceModules[0].GetValue(x, y, z);
+                return buffer[0].GetValue(x, y, z);
             else
-                return SourceModules[1].GetValue(x, y, z);
+                return buffer[1].GetValue(x, y, z);
         }
 
         if (controlValue < (LowerBound - EdgeFalloff))
         {
             // The output value from the control module is below the selector
             // threshold; return the output value from the first source module.
-            return SourceModules[0].GetValue(x, y, z);
+            return buffer[0].GetValue(x, y, z);
         }
         else if (controlValue < (LowerBound + EdgeFalloff))
         {
@@ -261,15 +266,15 @@ public class Select : Module
             double upperCurve = (LowerBound + EdgeFalloff);
             double alpha = NoiseMath.SCurve3((controlValue - lowerCurve) / (upperCurve - lowerCurve));
             return NoiseMath.Linear(
-                SourceModules[0].GetValue(x, y, z),
-                SourceModules[1].GetValue(x, y, z),
+                buffer[0].GetValue(x, y, z),
+                buffer[1].GetValue(x, y, z),
                 alpha);
         }
         else if (controlValue < (UpperBound - EdgeFalloff))
         {
             // The output value from the control module is within the selector
             // threshold; return the output value from the second source module.
-            return SourceModules[1].GetValue(x, y, z);
+            return buffer[1].GetValue(x, y, z);
         }
         else if (controlValue < (UpperBound + EdgeFalloff))
         {
@@ -280,15 +285,15 @@ public class Select : Module
             double upperCurve = (UpperBound + EdgeFalloff);
             double alpha = NoiseMath.SCurve3((controlValue - lowerCurve) / (upperCurve - lowerCurve));
             return NoiseMath.Linear(
-                SourceModules[1].GetValue(x, y, z),
-                SourceModules[0].GetValue(x, y, z),
+                buffer[1].GetValue(x, y, z),
+                buffer[0].GetValue(x, y, z),
                 alpha);
         }
         else
         {
             // Output value from the control module is above the selector threshold;
             // return the output value from the first source module.
-            return SourceModules[0].GetValue(x, y, z);
+            return buffer[0].GetValue(x, y, z);
         }
     }
 }

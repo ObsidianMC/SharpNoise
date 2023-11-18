@@ -1,4 +1,6 @@
-﻿namespace SharpNoise.Modules;
+﻿using SharpNoise.Modules.Buffers;
+
+namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that applies a scaling factor and a bias to the output
@@ -13,6 +15,9 @@
 /// </remarks>
 public class ScaleBias : Module
 {
+    public override ReadOnlySpan<Module> SourceModules => buffer;
+    private OneModuleBuffer buffer;
+
     /// <summary>
     /// Default bias
     /// </summary>
@@ -28,8 +33,8 @@ public class ScaleBias : Module
     /// </summary>
     public Module Source0
     {
-        get => SourceModules[0];
-        set => SourceModules[0] = value;
+        get => buffer[0];
+        set => buffer[0] = value;
     }
 
     /// <summary>
@@ -55,13 +60,6 @@ public class ScaleBias : Module
     public double Scale { get; set; } = DefaultScale;
 
     /// <summary>
-    /// Constructor.
-    /// </summary>
-    public ScaleBias() : base(1)
-    {
-    }
-
-    /// <summary>
     /// See the documentation on the base class.
     /// <seealso cref="Module"/>
     /// </summary>
@@ -71,6 +69,6 @@ public class ScaleBias : Module
     /// <returns>Returns the computed value</returns>
     public override double GetValue(double x, double y, double z)
     {
-        return SourceModules[0].GetValue(x, y, z) * Scale + Bias;
+        return buffer[0].GetValue(x, y, z) * Scale + Bias;
     }
 }

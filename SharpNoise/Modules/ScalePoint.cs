@@ -1,4 +1,6 @@
-﻿namespace SharpNoise.Modules;
+﻿using SharpNoise.Modules.Buffers;
+
+namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that scales the coordinates of the input value before
@@ -16,6 +18,9 @@
 /// </remarks>
 public class ScalePoint : Module
 {
+    public override ReadOnlySpan<Module> SourceModules => buffer;
+    private OneModuleBuffer buffer;
+
     /// <summary>
     /// Default scaling factor applied to all coordinates
     /// </summary>
@@ -26,8 +31,8 @@ public class ScalePoint : Module
     /// </summary>
     public Module Source0
     {
-        get => SourceModules[0];
-        set => SourceModules[0] = value;
+        get => buffer[0];
+        set => buffer[0] = value;
     }
 
     /// <summary>
@@ -73,13 +78,6 @@ public class ScalePoint : Module
     }
 
     /// <summary>
-    /// Constructor.
-    /// </summary>
-    public ScalePoint() : base(1)
-    {
-    }
-
-    /// <summary>
     /// See the documentation on the base class.
     /// <seealso cref="Module"/>
     /// </summary>
@@ -89,7 +87,7 @@ public class ScalePoint : Module
     /// <returns>Returns the computed value</returns>
     public override double GetValue(double x, double y, double z)
     {
-        return SourceModules[0].GetValue(
+        return buffer[0].GetValue(
             x * XScale, 
             y * YScale,
             z * ZScale);

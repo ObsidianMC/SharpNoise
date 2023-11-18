@@ -1,4 +1,6 @@
-﻿namespace SharpNoise.Modules;
+﻿using SharpNoise.Modules.Buffers;
+
+namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that rotates the input value around the origin before
@@ -20,6 +22,9 @@
 /// </remarks>
 public class RotatePoint : Module
 {
+    public override ReadOnlySpan<Module> SourceModules => buffer;
+    private OneModuleBuffer buffer;
+
     /// <summary>
     /// Default rotation angle for all axes
     /// </summary>
@@ -36,8 +41,8 @@ public class RotatePoint : Module
     /// </summary>
     public Module Source0
     {
-        get => SourceModules[0];
-        set => SourceModules[0] = value;
+        get => buffer[0];
+        set => buffer[0] = value;
     }
 
     /// <summary>
@@ -73,7 +78,7 @@ public class RotatePoint : Module
     /// <summary>
     /// Constructor.
     /// </summary>
-    public RotatePoint() : base(1)
+    public RotatePoint()
     {
         matrix = new double[3, 3];
         SetAngles(DefaultRotation, DefaultRotation, DefaultRotation);
@@ -124,6 +129,6 @@ public class RotatePoint : Module
         var nx = (matrix[0, 0] * x) + (matrix[1, 0] * y) + (matrix[2, 0] * z);
         var ny = (matrix[0, 1] * x) + (matrix[1, 1] * y) + (matrix[2, 1] * z);
         var nz = (matrix[0, 2] * x) + (matrix[1, 2] * y) + (matrix[2, 2] * z);
-        return SourceModules[0].GetValue(nx, ny, nz);
+        return buffer[0].GetValue(nx, ny, nz);
     }
 }

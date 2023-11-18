@@ -67,6 +67,8 @@
 /// </remarks>
 public class RidgedMulti : Module
 {
+    public override ReadOnlySpan<Module> SourceModules => [];
+
     /// <summary>
     /// Default frequency
     /// </summary>
@@ -159,7 +161,7 @@ public class RidgedMulti : Module
     /// <summary>
     /// Constructor.
     /// </summary>
-    public RidgedMulti() : base(0)
+    public RidgedMulti()
     {
         Lacunarity = DefaultLacunarity;
         OctaveCount = DefaultOctaveCount;

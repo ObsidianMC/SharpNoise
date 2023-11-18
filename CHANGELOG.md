@@ -1,5 +1,10 @@
 # SharpNoise Changelog
 
+## 0.13.1
+
+- Use inline-array buffers instead of arrays in modules
+- Use simplified formula for Linear function
+
 ## 0.13.0
 
 - Upgrade projects to .NET 8

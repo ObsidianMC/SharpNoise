@@ -5,6 +5,8 @@
 /// </summary>
 public class Simplex : Module
 {
+    public override ReadOnlySpan<Module> SourceModules => [];
+
     private readonly struct Grad(double x, double y, double z)
     {
         public readonly double X = x, Y = y, Z = z;
@@ -284,12 +286,5 @@ public class Simplex : Module
         }
 
         return value;
-    }
-
-    /// <summary>
-    /// Constructor.
-    /// </summary>
-    public Simplex() : base(0)
-    {
     }
 }

@@ -1,4 +1,5 @@
-﻿namespace SharpNoise.Modules;
+﻿
+namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that outputs a checkerboard pattern.
@@ -14,13 +15,7 @@
 /// </remarks>
 public class Checkerboard : Module
 {
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    public Checkerboard() : base(0)
-    {
-
-    }
+    public override ReadOnlySpan<Module> SourceModules => [];
 
     /// <summary>
     /// See the documentation on the base class.

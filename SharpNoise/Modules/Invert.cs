@@ -1,4 +1,6 @@
-﻿namespace SharpNoise.Modules;
+﻿using SharpNoise.Modules.Buffers;
+
+namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that inverts the output value from a source module.
@@ -8,21 +10,16 @@
 /// </remarks>
 public class Invert : Module
 {
+    public override ReadOnlySpan<Module> SourceModules => buffer;
+    private OneModuleBuffer buffer;
+
     /// <summary>
     /// Gets or sets the first source module
     /// </summary>
     public Module Source0
     {
-        get => SourceModules[0];
-        set => SourceModules[0] = value;
-    }
-
-    /// <summary>
-    /// Constructor.
-    /// </summary>
-    public Invert() : base(1)
-    {
-
+        get => buffer[0];
+        set => buffer[0] = value;
     }
 
     /// <summary>
@@ -35,6 +32,6 @@ public class Invert : Module
     /// <returns>Returns the computed value</returns>
     public override double GetValue(double x, double y, double z)
     {
-        return -1D * SourceModules[0].GetValue(x, y, z);
+        return -1D * buffer[0].GetValue(x, y, z);
     }
 }

@@ -15,8 +15,9 @@
 /// </remarks>
 public class Billow : Module
 {
-    #region Defaults
+    public override ReadOnlySpan<Module> SourceModules => [];
 
+    #region Defaults
     /// <summary>
     /// Default frequency
     /// </summary>
@@ -93,13 +94,6 @@ public class Billow : Module
     /// Gets or sets the seed value used by the billowy-noise function.
     /// </summary>
     public int Seed { get; set; } = DefaultSeed;
-
-    /// <summary>
-    /// Constructor.
-    /// </summary>
-    public Billow() : base(0)
-    {
-    }
 
     /// <summary>
     /// See the documentation on the base class.

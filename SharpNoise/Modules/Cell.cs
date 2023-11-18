@@ -48,6 +48,8 @@
 /// </remarks>
 public class Cell : Module
 {
+    public override ReadOnlySpan<Module> SourceModules => [];
+
     public enum CellType
     {
         Voronoi,
@@ -243,7 +245,7 @@ public class Cell : Module
     /// <summary>
     /// Constructor.
     /// </summary>
-    public Cell() : base(0)
+    public Cell()
     {
         EnableDistance = DefaultEnableDistance;
         Displacement = DefaultDisplacement;

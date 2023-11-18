@@ -261,29 +261,13 @@
 /// </remarks>
 public abstract class Module
 {
-    private readonly Module[] sourceModules;
-
     /// <summary>
     /// Returns the number of source modules required by this noise
     /// module.
     /// </summary>
-    public int SourceModuleCount => sourceModules.Length;
+    public int SourceModuleCount => SourceModules.Length;
 
-    public Module[] SourceModules => sourceModules;
-
-    private static readonly Module[] emptyModulesArray = [];
-
-    /// <summary>
-    /// Constructor, called from derived classes
-    /// </summary>
-    /// <param name="sourceModuleCount">The number of required source modules.</param>
-    protected Module(int sourceModuleCount)
-    {
-        if (sourceModuleCount < 0)
-            throw new ArgumentException("sourceModuleCount < 0");
-
-        sourceModules = sourceModuleCount > 0 ? new Module[sourceModuleCount] : emptyModulesArray;
-    }
+    public abstract ReadOnlySpan<Module> SourceModules { get; }
 
     /// <summary>
     /// Generates an output value given the coordinates of the specified

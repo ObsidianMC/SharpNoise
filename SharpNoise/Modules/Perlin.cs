@@ -1,4 +1,5 @@
-﻿namespace SharpNoise.Modules;
+﻿
+namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that outputs 3-dimensional Perlin noise.
@@ -110,6 +111,8 @@
 /// </remarks>
 public class Perlin : Module
 {
+    public override ReadOnlySpan<Module> SourceModules => [];
+
     /// <summary>
     /// Default frequency for the Perlin noise module.
     /// </summary>
@@ -189,13 +192,6 @@ public class Perlin : Module
     /// Gets or sets the seed value used by the Perlin-noise function.
     /// </summary>
     public int Seed { get; set; } = DefaultSeed;
-
-    /// <summary>
-    /// Constructor.
-    /// </summary>
-    public Perlin() : base(0)
-    {
-    }
 
     /// <summary>
     /// See the documentation on the base class.

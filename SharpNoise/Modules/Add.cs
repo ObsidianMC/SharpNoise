@@ -1,4 +1,6 @@
-﻿namespace SharpNoise.Modules;
+﻿using SharpNoise.Modules.Buffers;
+
+namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that outputs the sum of the two output values from two
@@ -9,13 +11,16 @@
 /// </remarks>
 public class Add : Module
 {
+    public override ReadOnlySpan<Module> SourceModules => buffer;
+    private TwoModulesBuffer buffer;
+
     /// <summary>
     /// Gets or sets the first source module
     /// </summary>
     public Module Source0
     {
-        get => SourceModules[0];
-        set => SourceModules[0] = value;
+        get => buffer[0];
+        set => buffer[0] = value;
     }
 
     /// <summary>
@@ -23,16 +28,8 @@ public class Add : Module
     /// </summary>
     public Module Source1
     {
-        get => SourceModules[1];
-        set => SourceModules[1] = value;
-    }
-
-    /// <summary>
-    /// Constructor.
-    /// </summary>
-    public Add() : base(2)
-    {
-
+        get => buffer[1];
+        set => buffer[1] = value;
     }
 
     /// <summary>
@@ -45,7 +42,7 @@ public class Add : Module
     /// <returns>Returns the computed value</returns>
     public override double GetValue(double x, double y, double z)
     {
-        return SourceModules[0].GetValue(x, y, z)
-             + SourceModules[1].GetValue(x, y, z);
+        return buffer[0].GetValue(x, y, z)
+             + buffer[1].GetValue(x, y, z);
     }
 }

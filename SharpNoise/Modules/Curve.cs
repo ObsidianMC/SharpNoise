@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SharpNoise.Modules.Buffers;
+using System.Collections.Generic;
 
 namespace SharpNoise.Modules;
 
@@ -24,14 +25,15 @@ namespace SharpNoise.Modules;
 ///
 /// This noise module requires one source module.
 /// </remarks>
-[Serializable]
 public class Curve : Module
 {
+    public override ReadOnlySpan<Module> SourceModules => buffer;
+    private OneModuleBuffer buffer;
+
     /// <summary>
     /// This structure defines a control point.
     /// Control points are used for defining splines.
     /// </summary>
-    [Serializable]
     public struct ControlPoint : IEquatable<ControlPoint>, IComparable<ControlPoint>
     {
         public readonly double InputValue;
@@ -102,14 +104,14 @@ public class Curve : Module
     /// </summary>
     public Module Source0
     {
-        get => SourceModules[0];
-        set => SourceModules[0] = value;
+        get => buffer[0];
+        set => buffer[0] = value;
     }
 
     /// <summary>
     /// Constructor.
     /// </summary>
-    public Curve() : base(1)
+    public Curve()
     {
         controlPoints = new List<ControlPoint>();
     }
@@ -179,7 +181,7 @@ public class Curve : Module
     public override double GetValue(double x, double y, double z)
     {
         // Get the output value from the source module.
-        var sourceValue = SourceModules[0].GetValue(x, y, z);
+        var sourceValue = buffer[0].GetValue(x, y, z);
 
         // Find the first element in the control point array that has an input value
         // larger than the output value from the source module.

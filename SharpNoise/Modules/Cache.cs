@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using SharpNoise.Modules.Buffers;
+using System.Runtime.Serialization;
 
 namespace SharpNoise.Modules;
 
@@ -30,6 +31,9 @@ namespace SharpNoise.Modules;
 /// </remarks>
 public class Cache : Module, IDeserializationCallback, IDisposable
 {
+    public override ReadOnlySpan<Module> SourceModules => buffer;
+    private OneModuleBuffer buffer = new();
+
     private class CacheEntry
     {
         public double x;
@@ -40,7 +44,6 @@ public class Cache : Module, IDeserializationCallback, IDisposable
 
     private bool disposedValue = false;
 
-    [NonSerialized]
     private ThreadLocal<CacheEntry> localCacheEntry = new();
 
     /// <summary>
@@ -48,15 +51,8 @@ public class Cache : Module, IDeserializationCallback, IDisposable
     /// </summary>
     public Module Source0
     {
-        get => SourceModules[0];
-        set => SourceModules[0] = value;
-    }
-
-    /// <summary>
-    /// Constructor.
-    /// </summary>
-    public Cache() : base(1)
-    {
+        get => buffer[0];
+        set => buffer[0] = value;
     }
 
     /// <summary>
@@ -94,7 +90,7 @@ public class Cache : Module, IDeserializationCallback, IDisposable
             localCacheEntry.Value = cached = new CacheEntry();
         }
 
-        cached.value = SourceModules[0].GetValue(x, y, z);
+        cached.value = buffer[0].GetValue(x, y, z);
         cached.x = x;
         cached.y = y;
         cached.z = z;

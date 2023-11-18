@@ -1,4 +1,5 @@
-﻿namespace SharpNoise.Modules;
+﻿
+namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that outputs a constant value.
@@ -13,6 +14,8 @@
 /// </remarks>
 public class Constant : Module
 {
+    public override ReadOnlySpan<Module> SourceModules => [];
+
     /// <summary>
     /// The default constant value of the Constant module
     /// </summary>
@@ -22,13 +25,6 @@ public class Constant : Module
     /// The value that will be produced by the module
     /// </summary>
     public double ConstantValue { get; set; } = DefaultConstantValue;
-
-    /// <summary>
-    /// Constructor.
-    /// </summary>
-    public Constant() : base(0)
-    {
-    }
 
     /// <summary>
     /// See the documentation on the base class.

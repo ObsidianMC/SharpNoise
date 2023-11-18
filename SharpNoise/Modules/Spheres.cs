@@ -27,6 +27,8 @@
 /// </remarks>
 public class Spheres : Module
 {
+    public override ReadOnlySpan<Module> SourceModules => [];
+
     /// <summary>
     /// Default frequency value
     /// </summary>
@@ -40,13 +42,6 @@ public class Spheres : Module
     /// spheres, reducing the distances between them.
     /// </remarks>
     public double Frequency { get; set; } = DefaultFrequency;
-
-    /// <summary>
-    /// Constructor.
-    /// </summary>
-    public Spheres() : base(0)
-    {
-    }
 
     /// <summary>
     /// See the documentation on the base class.

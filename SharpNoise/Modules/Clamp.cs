@@ -1,4 +1,6 @@
-﻿namespace SharpNoise.Modules;
+﻿using SharpNoise.Modules.Buffers;
+
+namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that clamps the output value from a source module to a
@@ -21,6 +23,9 @@
 /// </remarks>
 public class Clamp : Module
 {
+    public override ReadOnlySpan<Module> SourceModules => buffer;
+    private OneModuleBuffer buffer;
+
     /// <summary>
     /// Default lower bound of the clamping range
     /// </summary>
@@ -66,15 +71,8 @@ public class Clamp : Module
     /// </summary>
     public Module Source0
     {
-        get => SourceModules[0];
-        set => SourceModules[0] = value;
-    }
-
-    /// <summary>
-    /// Constructor.
-    /// </summary>
-    public Clamp() : base(1)
-    {
+        get => buffer[0];
+        set => buffer[0] = value;
     }
 
     /// <summary>
@@ -111,6 +109,6 @@ public class Clamp : Module
     /// <returns>Returns the computed value</returns>
     public override double GetValue(double x, double y, double z)
     {
-        return NoiseMath.Clamp(SourceModules[0].GetValue(x, y, z), LowerBound, UpperBound);
+        return NoiseMath.Clamp(buffer[0].GetValue(x, y, z), LowerBound, UpperBound);
     }
 }

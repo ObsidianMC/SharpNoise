@@ -63,7 +63,8 @@ public static class NoiseMath
     /// </remarks>
     public static double Linear(double n0, double n1, double a)
     {
-        return ((1D - a) * n0) + (a * n1);
+        return n0 + a * (n1 - n0);
+        //return ((1D - a) * n0) + (a * n1);
     }
 
     /// <summary>

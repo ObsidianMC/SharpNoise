@@ -1,4 +1,6 @@
-﻿namespace SharpNoise.Modules;
+﻿using SharpNoise.Modules.Buffers;
+
+namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that maps the output value from a source module onto an
@@ -14,6 +16,9 @@
 /// </remarks>
 public class Exponent : Module
 {
+    public override ReadOnlySpan<Module> SourceModules => buffer;
+    private OneModuleBuffer buffer;
+
     /// <summary>
     /// Default exponent
     /// </summary>
@@ -24,8 +29,8 @@ public class Exponent : Module
     /// </summary>
     public Module Source0
     {
-        get => SourceModules[0];
-        set => SourceModules[0] = value;
+        get => buffer[0];
+        set => buffer[0] = value;
     }
 
     /// <summary>
@@ -41,13 +46,6 @@ public class Exponent : Module
     public double Exp { get; set; } = DefaultExponent;
 
     /// <summary>
-    /// Constructor.
-    /// </summary>
-    public Exponent() : base(1)
-    {
-    }
-
-    /// <summary>
     /// See the documentation on the base class.
     /// <seealso cref="Module"/>
     /// </summary>
@@ -57,7 +55,7 @@ public class Exponent : Module
     /// <returns>Returns the computed value</returns>
     public override double GetValue(double x, double y, double z)
     {
-        double value = SourceModules[0].GetValue(x, y, z);
+        double value = buffer[0].GetValue(x, y, z);
         return (Math.Pow(Math.Abs((value + 1.0) / 2.0), Exp) * 2.0 - 1.0);
     }
 }

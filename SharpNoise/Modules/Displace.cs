@@ -1,4 +1,6 @@
-﻿namespace SharpNoise.Modules;
+﻿using SharpNoise.Modules.Buffers;
+
+namespace SharpNoise.Modules;
 
 /// <summary>
 /// Noise module that uses three source modules to displace each
@@ -47,13 +49,16 @@
 /// </remarks>
 public class Displace : Module
 {
+    public override ReadOnlySpan<Module> SourceModules => buffer;
+    private FourModulesBuffer buffer;
+
     /// <summary>
     /// Gets or sets the first source module
     /// </summary>
     public Module Source0
     {
-        get => SourceModules[0];
-        set => SourceModules[0] = value;
+        get => buffer[0];
+        set => buffer[0] = value;
     }
 
     /// <summary>
@@ -67,8 +72,8 @@ public class Displace : Module
     /// </remarks>
     public Module XDisplace
     {
-        get => SourceModules[1];
-        set => SourceModules[1] = value;
+        get => buffer[1];
+        set => buffer[1] = value;
     }
 
     /// <summary>
@@ -82,8 +87,8 @@ public class Displace : Module
     /// </remarks>
     public Module YDisplace
     {
-        get => SourceModules[2];
-        set => SourceModules[2] = value;
+        get => buffer[2];
+        set => buffer[2] = value;
     }
 
     /// <summary>
@@ -97,15 +102,8 @@ public class Displace : Module
     /// </remarks>
     public Module ZDisplace
     {
-        get => SourceModules[3];
-        set => SourceModules[3] = value;
-    }
-
-    /// <summary>
-    /// Constructor.
-    /// </summary>
-    public Displace() : base(4)
-    {
+        get => buffer[3];
+        set => buffer[3] = value;
     }
 
     /// <summary>
@@ -152,12 +150,12 @@ public class Displace : Module
     {
         // Get the output values from the three displacement modules.  Add each
         // value to the corresponding coordinate in the input value.
-        var xDisplace = x + (SourceModules[1].GetValue(x, y, z));
-        var yDisplace = y + (SourceModules[2].GetValue(x, y, z));
-        var zDisplace = z + (SourceModules[3].GetValue(x, y, z));
+        var xDisplace = x + (buffer[1].GetValue(x, y, z));
+        var yDisplace = y + (buffer[2].GetValue(x, y, z));
+        var zDisplace = z + (buffer[3].GetValue(x, y, z));
 
         // Retrieve the output value using the offsetted input value instead of
         // the original input value.
-        return SourceModules[0].GetValue(xDisplace, yDisplace, zDisplace);
+        return buffer[0].GetValue(xDisplace, yDisplace, zDisplace);
     }
 }

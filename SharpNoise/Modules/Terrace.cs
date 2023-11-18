@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SharpNoise.Modules.Buffers;
+using System.Collections.Generic;
 
 namespace SharpNoise.Modules;
 
@@ -33,7 +34,10 @@ namespace SharpNoise.Modules;
 /// </remarks>
 public class Terrace : Module
 {
-    private readonly List<double> controlPoints;
+    public override ReadOnlySpan<Module> SourceModules => buffer;
+    private OneModuleBuffer buffer;
+
+    private readonly List<double> controlPoints = [];
 
     /// <summary>
     /// Gets the number of control points on the terrace-forming curve.
@@ -64,16 +68,8 @@ public class Terrace : Module
     /// </summary>
     public Module Source0
     {
-        get => SourceModules[0];
-        set => SourceModules[0] = value;
-    }
-
-    /// <summary>
-    /// Constructor.
-    /// </summary>
-    public Terrace() : base(1)
-    {
-        controlPoints = new List<double>();
+        get => buffer[0];
+        set => buffer[0] = value;
     }
 
     /// <summary>
@@ -148,7 +144,7 @@ public class Terrace : Module
     public override double GetValue(double x, double y, double z)
     {
         // Get the output value from the source module.
-        double sourceModuleValue = SourceModules[0].GetValue(x, y, z);
+        double sourceModuleValue = buffer[0].GetValue(x, y, z);
 
         // Find the first element in the control point array that has a value
         // larger than the output value from the source module.

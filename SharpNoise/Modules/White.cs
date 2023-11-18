@@ -7,17 +7,10 @@
 /// http://www.dspguru.com/dsp/howtos/how-to-generate-white-gaussian-noise
 public class White : Module
 {
-    public int Scale { get; set; }
+    public override ReadOnlySpan<Module> SourceModules => [];
 
+    public int Scale { get; set; } = 256;
     public int Seed { get; set; }
-
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    public White() : base(0)
-    {
-        Scale = 256;
-    }
 
     /// <summary>
     /// See the documentation on the base class.
